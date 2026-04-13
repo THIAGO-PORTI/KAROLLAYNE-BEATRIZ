@@ -241,7 +241,7 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 60px 20px 60px 20px;
-  padding: 2.5rem;
+  padding: 2rem 1.5rem;
   box-shadow: 0 20px 30px -8px #0284C7;
   border: 2px solid white;
   transform: rotate(-0.2deg);
@@ -249,7 +249,9 @@ body {
 
 .section-header.central {
   justify-content: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .section-header.central i {
@@ -260,11 +262,49 @@ body {
 .marcas-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
-/* Link que envolve o card – sem sublinhado e herdando cores */
+/* Ajuste para telas médias (tablets) */
+@media (max-width: 1000px) {
+  .marcas-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Ajuste para mobile (celulares) */
+@media (max-width: 600px) {
+  .marcas-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  
+  .embaixadora-section {
+    padding: 1.5rem 1rem;
+    border-radius: 40px 10px 40px 10px;
+  }
+  
+  .marca-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .marca-card h4 {
+    font-size: 1.3rem;
+  }
+  
+  .insta-btn {
+    font-size: 1rem;
+    padding: 12px 20px;
+    white-space: nowrap;
+  }
+  
+  .insta-btn i {
+    font-size: 1.5rem;
+  }
+}
+
 .marca-link {
   text-decoration: none;
   color: inherit;
@@ -305,30 +345,32 @@ body {
 }
 
 .marca-card i {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #0284c7;
   margin-bottom: 15px;
 }
 
 .marca-card h4 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #0369a1;
   font-weight: 500;
   margin-bottom: 10px;
+  word-break: break-word;
 }
 
 .insta-handle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #0284c7;
   background: rgba(224, 242, 254, 0.5);
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   margin-top: 8px;
   transition: background 0.3s;
+  white-space: nowrap;
 }
 
 .marca-link:hover .insta-handle {
@@ -624,7 +666,7 @@ body {
   padding-right: 15px;
 }
 
-/* ========== RESPONSIVO ========== */
+/* ========== RESPONSIVO GERAL ========== */
 @media (max-width: 900px) {
   body {
     padding: 1.5rem 1rem;
@@ -649,11 +691,6 @@ body {
     margin: 0 auto;
   }
 
-  .marcas-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-
   .grid-absurdo {
     grid-template-columns: 1fr 1fr;
     gap: 1.8rem;
@@ -671,14 +708,9 @@ body {
   .assinatura {
     text-align: center;
   }
-
-  .insta-btn {
-    font-size: 1.1rem;
-    padding: 12px 25px;
-  }
 }
 
-/* AOS suavidade */
+/* Suavidade para revelações AOS */
 [data-aos] {
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
