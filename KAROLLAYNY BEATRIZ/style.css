@@ -20,7 +20,7 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 60px 20px 60px 20px;
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 2rem;
   box-shadow: 0 20px 35px -8px #0284C7;
   border: 2px solid white;
   transform: rotate(-0.3deg);
@@ -31,12 +31,14 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
+/* LOGO DENTE - CORRIGIDO PARA NUNCA SUMIR */
 .logo-dente {
   width: 80px;
   height: 80px;
+  min-width: 80px;       /* evita encolher */
   background: white;
   border-radius: 40% 60% 40% 60% / 50% 40% 60% 50%;
   display: flex;
@@ -45,50 +47,80 @@ body {
   box-shadow: 0 10px 15px -5px #0369a1;
   border: 3px solid white;
   transform: rotate(-5deg);
+  overflow: hidden;       /* garante que a imagem não vaze */
 }
 
 .logo-dente img {
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  padding: 8px;
+  display: block;
+}
+
+/* Fallback caso a imagem não carregue */
+.logo-dente img[src=""] {
+  display: none;
+}
+
+.logo-dente::after {
+  content: "🦷";
+  font-size: 2.5rem;
+  display: none;
+}
+
+/* Se a imagem quebrar, mostra o emoji (opcional) */
+.logo-dente img:not([src]), .logo-dente img[src=""] {
+  display: none;
+}
+
+.logo-dente img:not([src]) + .logo-dente::after {
+  display: block;
+}
+
+.header-texto {
+  flex: 1;
+  min-width: 220px;
 }
 
 .header-texto h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.8rem;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 500;
   color: #0369a1;
-  line-height: 1.1;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 .header-texto h1 span {
   display: block;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 3vw, 1.3rem);
   font-weight: 300;
   color: #0c4a6e;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   margin-top: 6px;
 }
 
 .header-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 10px;
   margin-top: 18px;
 }
 
 .badge {
   background: white;
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 40px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #0284c7;
   box-shadow: 0 4px 8px rgba(0,0,0,0.02);
   border: 1px solid #BAE6FD;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 /* Botão Instagram no cabeçalho */
@@ -102,7 +134,7 @@ body {
   padding: 10px 20px;
   border-radius: 40px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-decoration: none;
   box-shadow: 0 8px 15px rgba(0,0,0,0.1);
   transition: all 0.3s;
@@ -115,15 +147,16 @@ body {
 }
 
 .insta-header i {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .header-foto {
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
+  min-width: 100px;
   border-radius: 50% 30% 50% 30% / 40% 50% 40% 50%;
   overflow: hidden;
-  border: 6px solid white;
+  border: 5px solid white;
   box-shadow: 0 18px 25px -10px #0c4a6e;
   transform: rotate(4deg);
   transition: transform 0.3s;
@@ -148,7 +181,7 @@ body {
 .sobre-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
@@ -187,21 +220,21 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 40px 8px 40px 8px;
-  padding: 2.5rem;
+  padding: 2.2rem;
   box-shadow: 0 20px 30px -8px #0284C7;
   border: 2px solid white;
   transform: rotate(0.5deg);
 }
 
 .sobre-conteudo .section-header {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .sobre-conteudo p {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   line-height: 1.7;
   color: #1e3a5f;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .sobre-conteudo strong {
@@ -211,22 +244,22 @@ body {
 .sobre-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 25px;
 }
 
 .sobre-tags span {
   background: white;
-  padding: 8px 22px;
+  padding: 8px 18px;
   border-radius: 40px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #0369a1;
   box-shadow: 0 4px 10px rgba(0,0,0,0.03);
   border: 1px solid #BAE6FD;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .sobre-tags i {
@@ -266,42 +299,19 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Ajuste para telas médias (tablets) */
 @media (max-width: 1000px) {
   .marcas-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
   }
 }
 
-/* Ajuste para mobile (celulares) */
 @media (max-width: 600px) {
   .marcas-grid {
     grid-template-columns: 1fr;
-    gap: 1.2rem;
   }
-  
   .embaixadora-section {
     padding: 1.5rem 1rem;
     border-radius: 40px 10px 40px 10px;
-  }
-  
-  .marca-card {
-    padding: 1.5rem 1rem;
-  }
-  
-  .marca-card h4 {
-    font-size: 1.3rem;
-  }
-  
-  .insta-btn {
-    font-size: 1rem;
-    padding: 12px 20px;
-    white-space: nowrap;
-  }
-  
-  .insta-btn i {
-    font-size: 1.5rem;
   }
 }
 
@@ -391,7 +401,7 @@ body {
   color: white;
   padding: 14px 35px;
   border-radius: 50px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
   box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2);
@@ -405,7 +415,7 @@ body {
 }
 
 .insta-btn i {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 /* ========== GRID ASSIMÉTRICO ========== */
@@ -418,7 +428,7 @@ body {
   display: grid;
   grid-template-columns: 0.9fr 1.2fr 0.8fr 1.1fr;
   grid-template-rows: auto auto auto auto auto auto;
-  gap: 2.2rem;
+  gap: 2rem;
   position: relative;
 }
 
@@ -501,7 +511,7 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 30px 8px 30px 8px;
-  padding: 2rem 2.2rem;
+  padding: 1.8rem 2rem;
   box-shadow: 0 15px 25px -8px #0284C7;
   border: 1px solid white;
   z-index: 5;
@@ -510,25 +520,24 @@ body {
 .section-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .section-header i {
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: #0284c7;
   background: white;
-  padding: 10px;
+  padding: 8px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 .section-header h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 500;
   color: #0369a1;
-  letter-spacing: -0.02em;
 }
 
 /* Competências */
@@ -536,26 +545,25 @@ body {
   grid-column: 1 / 2;
   grid-row: 3 / 5;
   transform: rotate(-1deg) translateX(-5px);
-  padding: 1.8rem 1.8rem;
 }
 
 .lista-competencias {
   list-style: none;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .lista-competencias li {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #0c4a6e;
 }
 
 .lista-competencias li i {
   color: #0284c7;
-  font-size: 1.1rem;
+  font-size: 1rem;
   width: 22px;
   text-align: center;
 }
@@ -568,33 +576,33 @@ body {
 }
 
 .exp-item {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .exp-titulo {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .exp-titulo i {
   color: #0284c7;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .exp-titulo h4 {
   font-weight: 600;
   color: #0369a1;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .exp-data {
   background: white;
-  padding: 4px 14px;
+  padding: 3px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #0284c7;
   margin-left: auto;
@@ -606,7 +614,6 @@ body {
   grid-column: 4 / 5;
   grid-row: 3 / 5;
   transform: rotate(1.5deg) translateX(5px);
-  padding: 2rem 2rem;
 }
 
 /* Decorações */
@@ -658,7 +665,7 @@ body {
   max-width: 1300px;
   margin: 3rem auto 0;
   text-align: right;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #0369a1;
@@ -678,7 +685,11 @@ body {
   }
 
   .header-texto h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .badge {
+    white-space: normal;
   }
 
   .sobre-grid {
@@ -693,7 +704,7 @@ body {
 
   .grid-absurdo {
     grid-template-columns: 1fr 1fr;
-    gap: 1.8rem;
+    gap: 1.5rem;
   }
 
   .foto1 { grid-column: 1 / 3; grid-row: 1 / 2; }
@@ -710,7 +721,35 @@ body {
   }
 }
 
-/* Suavidade para revelações AOS */
+/* Ajuste fino para telas muito pequenas */
+@media (max-width: 480px) {
+  .logo-dente {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+
+  .header-foto {
+    width: 100px;
+    height: 100px;
+  }
+
+  .insta-header {
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
+
+  .insta-btn {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+
+  .insta-btn i {
+    font-size: 1.5rem;
+  }
+}
+
+/* Suavidade AOS */
 [data-aos] {
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
