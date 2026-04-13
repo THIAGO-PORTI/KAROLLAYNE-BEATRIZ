@@ -1,10 +1,12 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Karollayny Beatriz · Odontologia UNINASSAU</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="img/icon.png">
+  <title>Karollayny Beatriz · Odontologia UNINASSAU</title>
   
   <!-- Fontes e ícones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <!-- AOS -->
+  <!-- AOS (Animate On Scroll) -->
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   
   <!-- CSS próprio -->
@@ -20,7 +22,7 @@
 </head>
 <body>
 
-  <!-- Cabeçalho moderno com nome e foto circular -->
+  <!-- Cabeçalho moderno -->
   <header class="header-moderno" data-aos="fade-down" data-aos-duration="800">
     <div class="header-container">
       <div class="logo-dente">
@@ -29,10 +31,14 @@
       <div class="header-texto">
         <h1>Karollayny Beatriz <span>do Nascimento</span></h1>
         <div class="header-info">
-          <span class="badge"><i class="fas fa-graduation-cap"></i> 7º Período</span>
+          <span class="badge"><i class="fas fa-graduation-cap"></i> 8º Período</span>
           <span class="badge"><i class="fas fa-map-pin"></i> UNINASSAU Graças</span>
           <span class="badge"><i class="fas fa-calendar"></i> 2026</span>
         </div>
+        <!-- Botão Instagram no cabeçalho -->
+        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-header">
+          <i class="fab fa-instagram"></i> @odontoporbeatriz
+        </a>
       </div>
       <div class="header-foto">
         <img src="img/foto5.jpg" alt="Karollayny Beatriz">
@@ -42,7 +48,7 @@
 
   <main class="portfolio">
 
-    <!-- SEÇÃO SOBRE COM FOTO GRANDE + TEXTO (LADO A LADO) -->
+    <!-- SEÇÃO SOBRE COM FOTO GRANDE + TEXTO -->
     <section class="sobre-lado" data-aos="fade-up" data-aos-duration="1000">
       <div class="sobre-grid">
         <div class="sobre-foto" data-aos="zoom-in-right" data-aos-delay="200">
@@ -55,7 +61,7 @@
             <h2>Sobre mim</h2>
           </div>
           <p>
-            Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.
+            Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>8º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.
           </p>
           <p>
             Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor, sempre com foco no bem-estar do paciente.
@@ -70,25 +76,69 @@
       </div>
     </section>
 
-    <!-- GRID ASSIMÉTRICO (com animações de scroll) -->
+        <!-- SEÇÃO EMBAIXADORA (MARCAS) COM LINKS PARA INSTAGRAM -->
+    <section class="embaixadora-section" data-aos="fade-up" data-aos-duration="800">
+      <div class="section-header central">
+        <i class="fas fa-handshake"></i>
+        <h2>Embaixadora de Marcas</h2>
+      </div>
+      <div class="marcas-grid">
+        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="100">
+          <div class="marca-card">
+            <i class="fas fa-tooth"></i>
+            <h4>American Burrs</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="200">
+          <div class="marca-card">
+            <i class="fas fa-laptop-medical"></i>
+            <h4>Dentista On</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="300">
+          <div class="marca-card">
+            <i class="fas fa-users"></i>
+            <h4>Orais Manequins</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="400">
+          <div class="marca-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h4>Instituto Maylson Regino</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span>
+          </div>
+        </a>
+      </div>
+      <!-- Botão Instagram adicional (perfil dela) -->
+      <div class="insta-wrapper" data-aos="zoom-in" data-aos-delay="500">
+        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn">
+          <i class="fab fa-instagram"></i> Siga @odontoporbeatriz
+        </a>
+      </div>
+    </section>
+
+    <!-- GRID ASSIMÉTRICO -->
     <div class="grid-absurdo">
       
-      <!-- Foto 1 (grande) -->
+      <!-- Foto 1 -->
       <div class="foto-card foto1" data-aos="flip-left" data-aos-duration="800">
         <img src="img/foto1.jpg" alt="Procedimento clínico">
       </div>
 
-      <!-- Foto 2 (vertical) -->
+      <!-- Foto 2 -->
       <div class="foto-card foto2" data-aos="fade-up" data-aos-delay="100">
         <img src="img/foto2.jpg" alt="Estudante em atendimento">
       </div>
 
-      <!-- Foto 3 (quadrada) -->
+      <!-- Foto 3 -->
       <div class="foto-card foto3" data-aos="fade-up" data-aos-delay="200">
         <img src="img/foto3.jpg" alt="Instrumental odontológico">
       </div>
 
-      <!-- Seção Competências -->
+      <!-- Competências -->
       <div class="competencias" data-aos="fade-right" data-aos-duration="900">
         <div class="section-header">
           <i class="fas fa-cogs"></i>
@@ -105,7 +155,7 @@
         </ul>
       </div>
 
-      <!-- Seção Experiência Clínica -->
+      <!-- Experiência Clínica -->
       <div class="experiencia" data-aos="fade-up" data-aos-delay="300">
         <div class="section-header">
           <i class="fas fa-briefcase-medical"></i>
@@ -129,30 +179,30 @@
         </div>
       </div>
 
-      <!-- Seção Objetivos -->
+      <!-- Objetivos -->
       <div class="objetivos" data-aos="fade-left" data-aos-delay="400">
         <div class="section-header">
           <i class="fas fa-bullseye"></i>
           <h3>Objetivos</h3>
         </div>
         <p>
-          Concluir a graduação com excelência e ingressar em uma especialização em <strong>Buco-Maxilo-fac</strong> ou <strong>Endodontia</strong>. Desejo atuar em clínica própria ou integrada, proporcionando tratamentos de alto padrão com acolhimento e ética.
+          Concluir a graduação com excelência e ingressar em uma especialização em <strong>Dentística Restauradora</strong> ou <strong>Harmonização Orofacial</strong>. Desejo atuar em clínica própria ou integrada, proporcionando tratamentos de alto padrão com acolhimento e ética.
         </p>
       </div>
 
-      <!-- Foto 4 (faixa panorâmica) -->
+      <!-- Foto 4 -->
       <div class="foto-card foto4" data-aos="zoom-in" data-aos-delay="200">
         <img src="img/foto4.jpg" alt="Ambiente clínico">
       </div>
 
-      <!-- Elementos decorativos (opcionais) -->
+      <!-- Decorações -->
       <div class="detalhe-azul" data-aos="fade-in"></div>
       <div class="linha-branca" data-aos="fade-in" data-aos-delay="500"></div>
       <div class="detalhe-azul2" data-aos="fade-in" data-aos-delay="600"></div>
 
     </div> <!-- fim grid-absurdo -->
 
-    <!-- Assinatura / rodapé -->
+    <!-- Rodapé -->
     <footer class="assinatura" data-aos="fade-up" data-aos-delay="200">
       <span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span>
     </footer>
@@ -163,7 +213,7 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>
     AOS.init({
-      once: false,  // anima toda vez que aparecer
+      once: false,
       mirror: false,
       offset: 120,
       duration: 800,
