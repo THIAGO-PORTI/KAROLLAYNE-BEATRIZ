@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="img/icon.png">
   <title>Karollayny Beatriz · Odontologia UNINASSAU</title>
   
-  <!-- Fontes e ícones -->
+  <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
@@ -16,12 +16,12 @@
   <!-- AOS -->
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   
-  <!-- Firebase SDK -->
+  <!-- Firebase (opcional – só funciona se configurar as credenciais) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     
-    // ========== SUBSTITUA COM SUAS CREDENCIAIS DO FIREBASE ==========
+    // ========== COLOQUE SUAS CREDENCIAIS AQUI ==========
     const firebaseConfig = {
       apiKey: "SUA_API_KEY",
       authDomain: "SEU_AUTH_DOMAIN",
@@ -32,13 +32,27 @@
       appId: "SEU_APP_ID"
     };
     
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    window.db = database;
-    window.dbRef = ref;
-    window.dbPush = push;
-    window.dbOnValue = onValue;
-    window.dbRemove = remove;
+    let db = null;
+    let dbRef = null;
+    let dbPush = null;
+    let dbOnValue = null;
+    
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getDatabase(app);
+      dbRef = ref;
+      dbPush = push;
+      dbOnValue = onValue;
+      window.firebaseReady = true;
+    } catch (e) {
+      console.warn("Firebase não configurado. Usando localStorage.");
+      window.firebaseReady = false;
+    }
+    
+    window.db = db;
+    window.dbRef = dbRef;
+    window.dbPush = dbPush;
+    window.dbOnValue = dbOnValue;
   </script>
 
   <link rel="stylesheet" href="style.css">
@@ -56,34 +70,28 @@
   <canvas id="wave-canvas"></canvas>
 
   <!-- Cabeçalho -->
- <header class="header-moderno" data-aos="fade-down" data-aos-duration="800">
-  <div class="header-container novo-header">
-    
-    <!-- Foto à ESQUERDA -->
-    <div class="header-foto tilt-card">
-      <img src="img/foto5.jpg" alt="Karollayny Beatriz">
-    </div>
-
-    <!-- Texto CENTRALIZADO -->
-    <div class="header-texto centralizado">
-      <h1>Karollayny Beatriz <span>do Nascimento</span></h1>
-      <div class="header-info">
-        <span class="badge"><i class="fas fa-graduation-cap"></i> 7º Período</span>
-        <span class="badge"><i class="fas fa-map-pin"></i> UNINASSAU Graças</span>
-        <span class="badge"><i class="fas fa-calendar"></i> 2026</span>
+  <header class="header-moderno" data-aos="fade-down" data-aos-duration="800">
+    <div class="header-container">
+      <div class="header-foto tilt-card">
+        <img src="img/foto5.jpg" alt="Karollayny Beatriz">
       </div>
-      <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-header">
-        <i class="fab fa-instagram"></i> @odontoporbeatriz
-      </a>
+      <div class="header-texto">
+        <h1>Karollayny Beatriz <span>do Nascimento</span></h1>
+        <div class="header-info">
+          <span class="badge"><i class="fas fa-graduation-cap"></i> 7º Período</span>
+          <span class="badge"><i class="fas fa-map-pin"></i> UNINASSAU Graças</span>
+          <span class="badge"><i class="fas fa-calendar"></i> 2026</span>
+        </div>
+        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-header">
+          <i class="fab fa-instagram"></i> @odontoporbeatriz
+        </a>
+      </div>
+      <div class="logo-dente tilt-card">
+        <img src="img/icon.png" alt="Dente">
+      </div>
     </div>
+  </header>
 
-    <!-- Ícone do Dente à DIREITA -->
-    <div class="logo-dente tilt-card">
-      <img src="img/icon.png" alt="Dente">
-    </div>
-
-  </div>
-</header>
   <main class="portfolio">
 
     <!-- Sobre -->
@@ -91,19 +99,14 @@
       <div class="sobre-grid">
         <div class="sobre-foto tilt-card" data-aos="zoom-in-right" data-aos-delay="200">
           <img src="img/perfil-grande.jpg" alt="Karollayny Beatriz">
-          <div class="moldura-branca"></div>
         </div>
         <div class="sobre-conteudo" data-aos="fade-left" data-aos-delay="400">
           <div class="section-header">
             <i class="fas fa-user-circle"></i>
             <h2>Sobre mim</h2>
           </div>
-          <p>
-            Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.
-          </p>
-          <p>
-            Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor.
-          </p>
+          <p>Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.</p>
+          <p>Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor.</p>
           <div class="sobre-tags">
             <span><i class="fas fa-star"></i> Estética Dental</span>
             <span><i class="fas fa-heart"></i> Humanização</span>
@@ -114,7 +117,7 @@
       </div>
     </section>
 
-    <!-- Resultados e Depoimentos (com Firebase) -->
+    <!-- Resultados e Depoimentos -->
     <section class="resultados-section" data-aos="fade-up" data-aos-duration="1000">
       <div class="resultados-grid">
         
@@ -125,22 +128,10 @@
             <h3>Em números</h3>
           </div>
           <div class="numeros-container">
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="50">0</span>
-              <span class="numero-label">Restaurações</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="20">0</span>
-              <span class="numero-label">Clareamentos</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="15">0</span>
-              <span class="numero-label">Exodontias</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="30">0</span>
-              <span class="numero-label">Atendimentos Infantis</span>
-            </div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="50">0</span><span class="numero-label">Restaurações</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="20">0</span><span class="numero-label">Clareamentos</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="15">0</span><span class="numero-label">Exodontias</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="30">0</span><span class="numero-label">Atendimentos Infantis</span></div>
           </div>
         </div>
 
@@ -151,23 +142,15 @@
             <h3>O que dizem</h3>
           </div>
           
-          <!-- Lista de depoimentos do Firebase -->
           <div class="depoimentos-lista" id="depoimentosLista">
-            <div class="depoimento-placeholder">
-              <i class="fas fa-spinner fa-spin"></i> Carregando depoimentos...
-            </div>
+            <div class="depoimento-placeholder"><i class="fas fa-spinner fa-spin"></i> Carregando...</div>
           </div>
 
-          <!-- Formulário para novo depoimento -->
           <div class="depoimento-form">
             <h4>Deixe seu depoimento</h4>
             <form id="formDepoimento">
-              <div class="form-group">
-                <input type="text" id="depNome" placeholder="Seu nome" maxlength="40" required>
-              </div>
-              <div class="form-group">
-                <textarea id="depTexto" placeholder="Sua mensagem..." rows="2" maxlength="300" required></textarea>
-              </div>
+              <div class="form-group"><input type="text" id="depNome" placeholder="Seu nome" maxlength="40" required></div>
+              <div class="form-group"><textarea id="depTexto" placeholder="Sua mensagem..." rows="2" maxlength="300" required></textarea></div>
               <div class="form-group estrelas-input">
                 <label>Avaliação:</label>
                 <div class="estrelas-selecao" id="estrelasSelecao">
@@ -179,142 +162,62 @@
                 </div>
                 <input type="hidden" id="depEstrelas" value="5">
               </div>
-              <button type="submit" class="btn-depoimento">
-                <i class="fas fa-paper-plane"></i> Enviar depoimento
-              </button>
+              <button type="submit" class="btn-depoimento"><i class="fas fa-paper-plane"></i> Enviar depoimento</button>
             </form>
           </div>
         </div>
-
       </div>
     </section>
 
     <!-- Embaixadora -->
     <section class="embaixadora-section" data-aos="fade-up" data-aos-duration="800">
-      <div class="section-header central">
-        <i class="fas fa-handshake"></i>
-        <h2>Embaixadora de Marcas</h2>
-      </div>
+      <div class="section-header central"><i class="fas fa-handshake"></i><h2>Embaixadora de Marcas</h2></div>
       <div class="marcas-grid">
-        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="100">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-tooth"></i>
-            <h4>American Burrs</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="200">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-laptop-medical"></i>
-            <h4>Dentista On</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="300">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-users"></i>
-            <h4>Orais Manequins</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link" data-aos="flip-left" data-aos-delay="400">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-graduation-cap"></i>
-            <h4>Instituto Maylson Regino</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span>
-          </div>
-        </a>
+        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-tooth"></i><h4>American Burrs</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span></div></a>
+        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-laptop-medical"></i><h4>Dentista On</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span></div></a>
+        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-users"></i><h4>Orais Manequins</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span></div></a>
+        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-graduation-cap"></i><h4>Instituto Maylson Regino</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span></div></a>
       </div>
-      <div class="insta-wrapper" data-aos="zoom-in" data-aos-delay="500">
-        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn">
-          <i class="fab fa-instagram"></i> Siga @odontoporbeatriz
-        </a>
-      </div>
+      <div class="insta-wrapper"><a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn"><i class="fab fa-instagram"></i> Siga @odontoporbeatriz</a></div>
     </section>
 
     <!-- Grid Assimétrico -->
     <div class="grid-absurdo">
-      
-      <div class="foto-card foto1 tilt-card" data-aos="flip-left" data-aos-duration="800">
-        <img src="img/foto1.jpg" alt="Procedimento clínico">
-      </div>
-      <div class="foto-card foto2 tilt-card" data-aos="fade-up" data-aos-delay="100">
-        <img src="img/foto2.jpg" alt="Estudante em atendimento">
-      </div>
-      <div class="foto-card foto3 tilt-card" data-aos="fade-up" data-aos-delay="200">
-        <img src="img/foto3.jpg" alt="Instrumental odontológico">
-      </div>
+      <div class="foto-card foto1 tilt-card"><img src="img/foto1.jpg" alt="Procedimento"></div>
+      <div class="foto-card foto2 tilt-card"><img src="img/foto2.jpg" alt="Atendimento"></div>
+      <div class="foto-card foto3 tilt-card"><img src="img/foto3.jpg" alt="Instrumental"></div>
 
-      <!-- Competências -->
-      <div class="competencias" data-aos="fade-right" data-aos-duration="900">
-        <div class="section-header">
-          <i class="fas fa-cogs"></i>
-          <h3>Competências</h3>
-        </div>
+      <div class="competencias">
+        <div class="section-header"><i class="fas fa-cogs"></i><h3>Competências</h3></div>
         <ul class="lista-competencias">
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Restaurações estéticas diretas</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 90%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Clareamento dental</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 85%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Raspagem e alisamento</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 80%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Exodontias simples</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 75%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Odontopediatria</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 70%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Radiologia odontológica</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 85%"></div></div></li>
-          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Biossegurança</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 95%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Restaurações estéticas</span></div><div class="progress-bar"><div class="progress-fill" style="--width:90%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Clareamento dental</span></div><div class="progress-bar"><div class="progress-fill" style="--width:85%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Raspagem e alisamento</span></div><div class="progress-bar"><div class="progress-fill" style="--width:80%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Exodontias simples</span></div><div class="progress-bar"><div class="progress-fill" style="--width:75%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Odontopediatria</span></div><div class="progress-bar"><div class="progress-fill" style="--width:70%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Radiologia</span></div><div class="progress-bar"><div class="progress-fill" style="--width:85%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Biossegurança</span></div><div class="progress-bar"><div class="progress-fill" style="--width:95%"></div></div></li>
         </ul>
       </div>
 
-      <!-- Experiência -->
-      <div class="experiencia" data-aos="fade-up" data-aos-delay="300">
-        <div class="section-header">
-          <i class="fas fa-briefcase-medical"></i>
-          <h3>Experiência Clínica</h3>
-        </div>
-        <div class="exp-item">
-          <div class="exp-titulo">
-            <i class="fas fa-hospital-user"></i>
-            <h4>Clínica-Escola UNINASSAU</h4>
-            <span class="exp-data">2024 – Atual</span>
-          </div>
-          <p>Atendimento a pacientes sob supervisão docente, realizando procedimentos de dentística, periodontia e cirurgia.</p>
-        </div>
-        <div class="exp-item">
-          <div class="exp-titulo">
-            <i class="fas fa-users"></i>
-            <h4>Estágio Extramuros – UBS</h4>
-            <span class="exp-data">2025</span>
-          </div>
-          <p>Acompanhamento de equipe de saúde bucal em Unidade Básica de Saúde, com foco em prevenção.</p>
-        </div>
+      <div class="experiencia">
+        <div class="section-header"><i class="fas fa-briefcase-medical"></i><h3>Experiência Clínica</h3></div>
+        <div class="exp-item"><div class="exp-titulo"><i class="fas fa-hospital-user"></i><h4>Clínica-Escola UNINASSAU</h4><span class="exp-data">2024 – Atual</span></div><p>Atendimento a pacientes sob supervisão docente, realizando dentística, periodontia e cirurgia.</p></div>
+        <div class="exp-item"><div class="exp-titulo"><i class="fas fa-users"></i><h4>Estágio Extramuros – UBS</h4><span class="exp-data">2025</span></div><p>Acompanhamento em UBS com foco em prevenção e educação em saúde bucal.</p></div>
       </div>
 
-      <!-- Objetivos -->
-      <div class="objetivos" data-aos="fade-left" data-aos-delay="400">
-        <div class="section-header">
-          <i class="fas fa-bullseye"></i>
-          <h3>Objetivos</h3>
-        </div>
-        <p>
-          Concluir a graduação com excelência e ingressar em uma especialização em <strong>Endodontia</strong> e ser aprovada na residência de <strong>Buco Maxilo Facial</strong> e <strong>Odontologia hospitalar</strong>. Desejo atuar em clínicas, bloco cirúrgico, Forças armadas e hospitais.
-        </p>
+      <div class="objetivos">
+        <div class="section-header"><i class="fas fa-bullseye"></i><h3>Objetivos</h3></div>
+        <p>Concluir a graduação com excelência e ingressar na especialização em <strong>Endodontia</strong>, além da residência em <strong>Buco Maxilo Facial</strong> e <strong>Odontologia Hospitalar</strong>.</p>
       </div>
 
-      <div class="foto-card foto4 tilt-card" data-aos="zoom-in" data-aos-delay="200">
-        <img src="img/foto4.jpg" alt="Ambiente clínico">
-      </div>
-
-      <div class="detalhe-azul" data-aos="fade-in"></div>
-      <div class="linha-branca" data-aos="fade-in" data-aos-delay="500"></div>
-      <div class="detalhe-azul2" data-aos="fade-in" data-aos-delay="600"></div>
+      <div class="foto-card foto4 tilt-card"><img src="img/foto4.jpg" alt="Ambiente clínico"></div>
     </div>
 
-    <footer class="assinatura" data-aos="fade-up" data-aos-delay="200">
-      <span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span>
-    </footer>
-
+    <footer class="assinatura"><span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span></footer>
   </main>
 
-  <div class="back-to-top" id="backToTop">
-    <i class="fas fa-chevron-up"></i>
-  </div>
+  <div class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -328,180 +231,164 @@
       window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
 
       // AOS
-      AOS.init({ once: true, mirror: false, offset: 80, duration: 800, easing: 'ease-out-cubic' });
+      AOS.init({ once: true, offset: 80, duration: 800 });
 
-      // Vanilla Tilt
+      // Tilt
       VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 8, speed: 400, glare: true, "max-glare": 0.3 });
 
-      // Ondas canvas
+      // Ondas
       (function() {
         const canvas = document.getElementById('wave-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+        let w, h;
+        function resize() { w = window.innerWidth; h = window.innerHeight; canvas.width = w; canvas.height = h; }
         window.addEventListener('resize', resize); resize();
-        let time = 0;
-        function drawWaves() {
-          if (window.innerWidth <= 768) { ctx.clearRect(0, 0, width, height); return; }
-          ctx.clearRect(0, 0, width, height);
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+        let t = 0;
+        function draw() {
+          if (w <= 768) return;
+          ctx.clearRect(0, 0, w, h);
+          ctx.fillStyle = 'rgba(255,255,255,0.03)';
           for (let i = 0; i < 3; i++) {
             ctx.beginPath();
-            for (let x = 0; x <= width; x += 20) {
-              const y = height/2 + Math.sin(x * 0.01 + time + i) * 30 + Math.cos(x * 0.005 + time * 0.5) * 20;
-              ctx.lineTo(x, y + i * 40);
+            for (let x = 0; x <= w; x += 20) {
+              const y = h/2 + Math.sin(x*0.01 + t + i)*30 + Math.cos(x*0.005 + t*0.5)*20;
+              ctx.lineTo(x, y + i*40);
             }
-            ctx.lineTo(width, height); ctx.lineTo(0, height); ctx.closePath(); ctx.fill();
+            ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fill();
           }
-          time += 0.02;
-          requestAnimationFrame(drawWaves);
+          t += 0.02;
+          requestAnimationFrame(draw);
         }
-        drawWaves();
+        draw();
       })();
 
       // Progress bars
-      const progressObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate'); });
-      }, { threshold: 0.5 });
-      document.querySelectorAll('.progress-fill').forEach(bar => progressObserver.observe(bar));
+      const obs = new IntersectionObserver((e) => e.forEach(en => { if(en.isIntersecting) en.target.classList.add('animate'); }), { threshold:0.5 });
+      document.querySelectorAll('.progress-fill').forEach(b => obs.observe(b));
 
       // Back to top
-      const backBtn = document.getElementById('backToTop');
-      window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 300));
-      backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      const back = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => back.classList.toggle('visible', scrollY > 300));
+      back.addEventListener('click', () => scrollTo({ top:0, behavior:'smooth' }));
 
-      // Contador de números
-      const contadorObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            const alvo = parseInt(el.dataset.alvo);
-            let atual = 0;
-            const timer = setInterval(() => {
-              atual += alvo / 50;
-              if (atual >= alvo) { el.textContent = alvo; clearInterval(timer); }
-              else { el.textContent = Math.floor(atual); }
-            }, 20);
-            contadorObserver.unobserve(el);
-          }
-        });
-      }, { threshold: 0.5 });
-      document.querySelectorAll('.numero-contador').forEach(c => contadorObserver.observe(c));
+      // Contadores
+      const contObs = new IntersectionObserver((e) => e.forEach(en => {
+        if(en.isIntersecting) {
+          const el = en.target;
+          const alvo = +el.dataset.alvo;
+          let at = 0;
+          const iv = setInterval(() => {
+            at += alvo/50;
+            if(at >= alvo) { el.textContent = alvo; clearInterval(iv); }
+            else el.textContent = Math.floor(at);
+          }, 20);
+          contObs.unobserve(el);
+        }
+      }), { threshold:0.5 });
+      document.querySelectorAll('.numero-contador').forEach(c => contObs.observe(c));
 
-      // Firebase: Depoimentos
-      const db = window.db;
-      const dbRef = window.dbRef;
-      const dbPush = window.dbPush;
-      const dbOnValue = window.dbOnValue;
-      const dbRemove = window.dbRemove;
-
-      const depoimentosRef = dbRef(db, 'depoimentos');
+      // ========== DEPOIMENTOS (localStorage + Firebase opcional) ==========
       const listaEl = document.getElementById('depoimentosLista');
       const form = document.getElementById('formDepoimento');
-      const nomeInput = document.getElementById('depNome');
-      const textoInput = document.getElementById('depTexto');
-      const estrelasHidden = document.getElementById('depEstrelas');
-      const estrelasSelecao = document.getElementById('estrelasSelecao');
+      const nomeInp = document.getElementById('depNome');
+      const textoInp = document.getElementById('depTexto');
+      const estHidden = document.getElementById('depEstrelas');
+      const estDiv = document.getElementById('estrelasSelecao');
 
       // Estrelas interativas
-      estrelasSelecao.addEventListener('click', (e) => {
-        if (e.target.tagName === 'I') {
-          const valor = parseInt(e.target.dataset.valor);
-          estrelasHidden.value = valor;
-          Array.from(estrelasSelecao.children).forEach((star, index) => {
-            star.className = index < valor ? 'fas fa-star' : 'far fa-star';
-          });
+      estDiv.addEventListener('click', e => {
+        if(e.target.tagName === 'I') {
+          const v = +e.target.dataset.valor;
+          estHidden.value = v;
+          Array.from(estDiv.children).forEach((s,i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
         }
       });
-      estrelasSelecao.addEventListener('mouseover', (e) => {
-        if (e.target.tagName === 'I') {
-          const valor = parseInt(e.target.dataset.valor);
-          Array.from(estrelasSelecao.children).forEach((star, index) => {
-            if (index < valor) star.className = 'fas fa-star';
-          });
+      estDiv.addEventListener('mouseover', e => {
+        if(e.target.tagName === 'I') {
+          const v = +e.target.dataset.valor;
+          Array.from(estDiv.children).forEach((s,i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
         }
       });
-      estrelasSelecao.addEventListener('mouseleave', () => {
-        const valorAtual = parseInt(estrelasHidden.value);
-        Array.from(estrelasSelecao.children).forEach((star, index) => {
-          star.className = index < valorAtual ? 'fas fa-star' : 'far fa-star';
-        });
+      estDiv.addEventListener('mouseleave', () => {
+        const v = +estHidden.value;
+        Array.from(estDiv.children).forEach((s,i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
       });
 
-      // Renderizar depoimentos
-      function renderDepoimento(dep) {
+      // Funções de renderização
+      function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+      function renderDep(d) {
         const div = document.createElement('div');
         div.className = 'depoimento-item-visitante';
-        div.innerHTML = `
-          <div class="depoimento-autor-visitante">
-            <i class="fas fa-user-circle"></i>
-            <div>
-              <strong>${escapeHtml(dep.nome)}</strong>
-              <div class="estrelas">${'★'.repeat(dep.estrelas)}${'☆'.repeat(5 - dep.estrelas)}</div>
-            </div>
-            <span class="depoimento-data">${dep.data || ''}</span>
-          </div>
-          <p>${escapeHtml(dep.texto)}</p>
-        `;
+        div.innerHTML = `<div class="depoimento-autor-visitante"><i class="fas fa-user-circle"></i><div><strong>${escapeHtml(d.nome)}</strong><div class="estrelas">${'★'.repeat(d.estrelas)}${'☆'.repeat(5-d.estrelas)}</div></div><span class="depoimento-data">${d.data || ''}</span></div><p>${escapeHtml(d.texto)}</p>`;
         return div;
       }
 
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+      // Carregar depoimentos (localStorage + Firebase se disponível)
+      function carregarDepoimentos() {
+        listaEl.innerHTML = '<div class="depoimento-placeholder"><i class="fas fa-spinner fa-spin"></i> Carregando...</div>';
+        
+        // Tenta Firebase primeiro
+        if (window.firebaseReady && window.db) {
+          const refDep = window.dbRef(window.db, 'depoimentos');
+          window.dbOnValue(refDep, (snap) => {
+            const deps = [];
+            snap.forEach(c => deps.push({ id: c.key, ...c.val() }));
+            deps.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+            exibirDepoimentos(deps);
+          });
+        } else {
+          // Fallback para localStorage
+          const stored = localStorage.getItem('depoimentos_portfolio');
+          const deps = stored ? JSON.parse(stored) : [];
+          exibirDepoimentos(deps);
+        }
       }
 
-      dbOnValue(depoimentosRef, (snapshot) => {
+      function exibirDepoimentos(deps) {
         listaEl.innerHTML = '';
-        const depoimentos = [];
-        snapshot.forEach((child) => {
-          depoimentos.push({ id: child.key, ...child.val() });
-        });
-        depoimentos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-        
-        if (depoimentos.length === 0) {
+        if (!deps.length) {
           listaEl.innerHTML = '<p class="sem-depoimentos"><i class="far fa-comment-dots"></i> Nenhum depoimento ainda. Seja o primeiro!</p>';
-        } else {
-          depoimentos.slice(0, 5).forEach(dep => {
-            listaEl.appendChild(renderDepoimento(dep));
-          });
+          return;
         }
-      });
+        deps.slice(0, 5).forEach(d => listaEl.appendChild(renderDep(d)));
+      }
 
-      // Enviar novo depoimento
-      form.addEventListener('submit', (e) => {
+      // Salvar depoimento
+      function salvarDepoimento(dep) {
+        if (window.firebaseReady && window.db) {
+          const refDep = window.dbRef(window.db, 'depoimentos');
+          window.dbPush(refDep, dep).catch(e => console.warn("Firebase falhou, salvando local."));
+        }
+        // Sempre salva no localStorage como backup
+        const stored = localStorage.getItem('depoimentos_portfolio');
+        const deps = stored ? JSON.parse(stored) : [];
+        deps.unshift(dep);
+        localStorage.setItem('depoimentos_portfolio', JSON.stringify(deps.slice(0, 20)));
+      }
+
+      form.addEventListener('submit', e => {
         e.preventDefault();
-        const nome = nomeInput.value.trim();
-        const texto = textoInput.value.trim();
-        const estrelas = parseInt(estrelasHidden.value);
+        const nome = nomeInp.value.trim();
+        const texto = textoInp.value.trim();
+        const estrelas = +estHidden.value;
+        if(!nome || !texto) return alert('Preencha nome e mensagem!');
         
-        if (!nome || !texto) return;
-        
-        const novoDepoimento = {
-          nome,
-          texto,
-          estrelas,
+        const novo = {
+          nome, texto, estrelas,
           timestamp: Date.now(),
           data: new Date().toLocaleDateString('pt-BR')
         };
         
-        dbPush(depoimentosRef, novoDepoimento)
-          .then(() => {
-            nomeInput.value = '';
-            textoInput.value = '';
-            estrelasHidden.value = '5';
-            Array.from(estrelasSelecao.children).forEach((star, i) => {
-              star.className = i < 5 ? 'fas fa-star' : 'far fa-star';
-            });
-            alert('✨ Depoimento enviado com sucesso! Obrigado!');
-          })
-          .catch((err) => {
-            alert('Erro ao enviar. Tente novamente.');
-            console.error(err);
-          });
+        salvarDepoimento(novo);
+        carregarDepoimentos(); // recarrega
+        nomeInp.value = '';
+        textoInp.value = '';
+        estHidden.value = '5';
+        Array.from(estDiv.children).forEach((s,i) => s.className = i < 5 ? 'fas fa-star' : 'far fa-star');
+        alert('✨ Depoimento enviado! Obrigado.');
       });
 
+      carregarDepoimentos();
     })();
   </script>
 </body>
