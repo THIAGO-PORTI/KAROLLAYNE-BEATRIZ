@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <title>Karollayny Beatriz · Odontologia UNINASSAU</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Loader -->
+  <div class="loader-wrapper" id="loader">
+    <div class="loader">
+      <i class="fas fa-tooth"></i>
+      <p>Carregando sorrisos...</p>
+    </div>
+  </div>
+
+  <canvas id="wave-canvas"></canvas>
+
+  <!-- Cabeçalho -->
+  <header class="header-moderno" data-aos="fade-down" data-aos-duration="800">
+    <div class="header-container">
+      <div class="logo-dente tilt-card">
+        <img src="img/icon.png" alt="Dente">
+      </div>
+      <div class="header-texto">
+        <h1>Karollayny Beatriz <span>do Nascimento</span></h1>
+        <div class="header-info">
+          <span class="badge"><i class="fas fa-graduation-cap"></i> 7º Período</span>
+          <span class="badge"><i class="fas fa-map-pin"></i> UNINASSAU Graças</span>
+          <span class="badge"><i class="fas fa-calendar"></i> 2026</span>
+        </div>
+        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-header">
+          <i class="fab fa-instagram"></i> @odontoporbeatriz
+        </a>
+      </div>
+      <div class="header-foto tilt-card">
+        <img src="img/foto5.jpg" alt="Karollayny Beatriz">
+      </div>
+    </div>
+  </header>
+
+  <main class="portfolio">
+
+    <!-- Sobre -->
+    <section class="sobre-lado" data-aos="fade-up" data-aos-duration="1000">
+      <div class="sobre-grid">
+        <div class="sobre-foto tilt-card" data-aos="zoom-in-right" data-aos-delay="200">
+          <img src="img/perfil-grande.jpg" alt="Karollayny Beatriz">
+          <div class="moldura-branca"></div>
+        </div>
+        <div class="sobre-conteudo" data-aos="fade-left" data-aos-delay="400">
+          <div class="section-header">
+            <i class="fas fa-user-circle"></i>
+            <h2>Sobre mim</h2>
+          </div>
+          <p>
+            Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.
+          </p>
+          <p>
+            Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor.
+          </p>
+          <div class="sobre-tags">
+            <span><i class="fas fa-star"></i> Estética Dental</span>
+            <span><i class="fas fa-heart"></i> Humanização</span>
+            <span><i class="fas fa-microscope"></i> Atualização</span>
+            <span><i class="fas fa-hand-holding-heart"></i> Acolhimento</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resultados e Formulário de Avaliação -->
+    <section class="resultados-section" data-aos="fade-up" data-aos-duration="1000">
+      <div class="resultados-grid">
+        
+        <div class="numeros-card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="section-header">
+            <i class="fas fa-chart-line"></i>
+            <h3>Em números</h3>
+          </div>
+          <div class="numeros-container">
+            <div class="numero-item">
+              <span class="numero-contador" data-alvo="50">0</span>
+              <span class="numero-label">Restaurações</span>
+            </div>
+            <div class="numero-item">
+              <span class="numero-contador" data-alvo="20">0</span>
+              <span class="numero-label">Clareamentos</span>
+            </div>
+            <div class="numero-item">
+              <span class="numero-contador" data-alvo="15">0</span>
+              <span class="numero-label">Exodontias</span>
+            </div>
+            <div class="numero-item">
+              <span class="numero-contador" data-alvo="30">0</span>
+              <span class="numero-label">Atendimentos Infantis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card de Avaliação Privada (substitui depoimentos públicos) -->
+        <div class="avaliacao-card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="section-header">
+            <i class="fas fa-pen-to-square"></i>
+            <h3>Avalie seu atendimento</h3>
+          </div>
+          
+          <p class="avaliacao-intro">
+            Sua opinião é muito importante! Ela será enviada diretamente para a Dra. Karollayny.
+          </p>
+
+          <form class="avaliacao-form" id="formAvaliacao" action="https://formsubmit.co/ajax/SEU_EMAIL_AQUI" method="POST">
+            <!-- Substitua SEU_EMAIL_AQUI pelo e-mail real da cliente -->
+            <input type="hidden" name="_subject" value="Nova avaliação do Portfólio">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            
+            <div class="form-group">
+              <input type="text" name="nome" id="avNome" placeholder="Seu nome" required>
+            </div>
+            
+            <div class="form-group estrelas-input">
+              <label>Sua nota:</label>
+              <div class="estrelas-selecao" id="estrelasAvaliacao">
+                <i class="fas fa-star" data-valor="1"></i>
+                <i class="fas fa-star" data-valor="2"></i>
+                <i class="fas fa-star" data-valor="3"></i>
+                <i class="fas fa-star" data-valor="4"></i>
+                <i class="fas fa-star" data-valor="5"></i>
+              </div>
+              <input type="hidden" name="nota" id="avNota" value="5">
+            </div>
+            
+            <div class="form-group">
+              <textarea name="mensagem" id="avMensagem" placeholder="Conte como foi sua experiência..." rows="3" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-avaliacao">
+              <i class="fas fa-paper-plane"></i> Enviar avaliação
+            </button>
+          </form>
+          
+          <p class="avaliacao-footer">
+            <i class="fas fa-lock"></i> Avaliação privada. Seus dados não serão publicados.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Embaixadora -->
+    <section class="embaixadora-section" data-aos="fade-up" data-aos-duration="800">
+      <div class="section-header central">
+        <i class="fas fa-handshake"></i>
+        <h2>Embaixadora de Marcas</h2>
+      </div>
+      <div class="marcas-grid">
+        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link">
+          <div class="marca-card tilt-card">
+            <i class="fas fa-tooth"></i>
+            <h4>American Burrs</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link">
+          <div class="marca-card tilt-card">
+            <i class="fas fa-laptop-medical"></i>
+            <h4>Dentista On</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link">
+          <div class="marca-card tilt-card">
+            <i class="fas fa-users"></i>
+            <h4>Orais Manequins</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link">
+          <div class="marca-card tilt-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h4>Instituto Maylson Regino</h4>
+            <span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span>
+          </div>
+        </a>
+      </div>
+      <div class="insta-wrapper">
+        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn">
+          <i class="fab fa-instagram"></i> Siga @odontoporbeatriz
+        </a>
+      </div>
+    </section>
+
+    <!-- Grid Assimétrico -->
+    <div class="grid-absurdo">
+      
+      <div class="foto-card foto1 tilt-card" data-aos="flip-left">
+        <img src="img/foto1.jpg" alt="Procedimento clínico">
+      </div>
+      <div class="foto-card foto2 tilt-card" data-aos="fade-up">
+        <img src="img/foto2.jpg" alt="Estudante em atendimento">
+      </div>
+      <div class="foto-card foto3 tilt-card" data-aos="fade-up">
+        <img src="img/foto3.jpg" alt="Instrumental odontológico">
+      </div>
+
+      <div class="competencias" data-aos="fade-right">
+        <div class="section-header">
+          <i class="fas fa-cogs"></i>
+          <h3>Competências</h3>
+        </div>
+        <ul class="lista-competencias">
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Restaurações estéticas diretas</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 90%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Clareamento dental</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 85%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Raspagem e alisamento</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 80%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Exodontias simples</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 75%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Odontopediatria</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 70%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Radiologia odontológica</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 85%"></div></div></li>
+          <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Biossegurança</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 95%"></div></div></li>
+        </ul>
+      </div>
+
+      <div class="experiencia" data-aos="fade-up">
+        <div class="section-header">
+          <i class="fas fa-briefcase-medical"></i>
+          <h3>Experiência Clínica</h3>
+        </div>
+        <div class="exp-item">
+          <div class="exp-titulo">
+            <i class="fas fa-hospital-user"></i>
+            <h4>Clínica-Escola UNINASSAU</h4>
+            <span class="exp-data">2024 – Atual</span>
+          </div>
+          <p>Atendimento a pacientes sob supervisão docente, realizando procedimentos de dentística, periodontia e cirurgia.</p>
+        </div>
+        <div class="exp-item">
+          <div class="exp-titulo">
+            <i class="fas fa-users"></i>
+            <h4>Estágio Extramuros – UBS</h4>
+            <span class="exp-data">2025</span>
+          </div>
+          <p>Acompanhamento de equipe de saúde bucal em Unidade Básica de Saúde, com foco em prevenção.</p>
+        </div>
+      </div>
+
+      <div class="objetivos" data-aos="fade-left">
+        <div class="section-header">
+          <i class="fas fa-bullseye"></i>
+          <h3>Objetivos</h3>
+        </div>
+        <p>
+          Concluir a graduação com excelência e ingressar em uma especialização em <strong>Endodontia</strong> e ser aprovada na residência de <strong>Buco Maxilo Facial</strong> e <strong>Odontologia hospitalar</strong>.
+        </p>
+      </div>
+
+      <div class="foto-card foto4 tilt-card" data-aos="zoom-in">
+        <img src="img/foto4.jpg" alt="Ambiente clínico">
+      </div>
+
+    </div>
+
+    <footer class="assinatura" data-aos="fade-up">
+      <span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span>
+    </footer>
+
+  </main>
+
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+  
+  <script>
+    (function() {
+      "use strict";
+
+      // Loader
+      window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+
+      // AOS
+      AOS.init({ once: true, offset: 80, duration: 800 });
+
+      // Vanilla Tilt
+      if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 6, speed: 400, glare: true, "max-glare": 0.2 });
+      }
+
+      // Ondas canvas
+      (function() {
+        const canvas = document.getElementById('wave-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+        window.addEventListener('resize', resize); resize();
+        let time = 0;
+        function drawWaves() {
+          if (window.innerWidth <= 768) { ctx.clearRect(0, 0, width, height); return; }
+          ctx.clearRect(0, 0, width, height);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+          for (let i = 0; i < 3; i++) {
+            ctx.beginPath();
+            for (let x = 0; x <= width; x += 20) {
+              const y = height/2 + Math.sin(x * 0.01 + time + i) * 30 + Math.cos(x * 0.005 + time * 0.5) * 20;
+              ctx.lineTo(x, y + i * 40);
+            }
+            ctx.lineTo(width, height); ctx.lineTo(0, height); ctx.closePath(); ctx.fill();
+          }
+          time += 0.02;
+          requestAnimationFrame(drawWaves);
+        }
+        drawWaves();
+      })();
+
+      // Progress bars
+      const progressObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate'); });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.progress-fill').forEach(bar => progressObserver.observe(bar));
+
+      // Back to top
+      const backBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 300));
+      backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // Contador de números
+      const contadorObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const alvo = parseInt(el.dataset.alvo);
+            let atual = 0;
+            const timer = setInterval(() => {
+              atual += alvo / 50;
+              if (atual >= alvo) { el.textContent = alvo; clearInterval(timer); }
+              else { el.textContent = Math.floor(atual); }
+            }, 20);
+            contadorObserver.unobserve(el);
+          }
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.numero-contador').forEach(c => contadorObserver.observe(c));
+
+      // Estrelas interativas do formulário de avaliação
+      const starsContainer = document.getElementById('estrelasAvaliacao');
+      const notaInput = document.getElementById('avNota');
+      if (starsContainer) {
+        const stars = starsContainer.querySelectorAll('i');
+        
+        function atualizarEstrelas(valor) {
+          stars.forEach((star, index) => {
+            star.className = index < valor ? 'fas fa-star' : 'far fa-star';
+          });
+          notaInput.value = valor;
+        }
+        
+        stars.forEach((star, index) => {
+          star.addEventListener('click', () => atualizarEstrelas(index + 1));
+          star.addEventListener('mouseenter', () => {
+            stars.forEach((s, i) => { s.className = i <= index ? 'fas fa-star' : 'far fa-star'; });
+          });
+        });
+        
+        starsContainer.addEventListener('mouseleave', () => {
+          atualizarEstrelas(parseInt(notaInput.value));
+        });
+        
+        atualizarEstrelas(5);
+      }
+
+      // Formulário de avaliação (FormSubmit)
+      const form = document.getElementById('formAvaliacao');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const btn = form.querySelector('button');
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+          btn.disabled = true;
+          
+          const formData = new FormData(form);
+          
+          fetch(form.action, {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success === true || data.success === "true") {
+              alert('✅ Avaliação enviada com sucesso! Muito obrigado!');
+              form.reset();
+              // Resetar estrelas para 5
+              const stars = starsContainer.querySelectorAll('i');
+              stars.forEach((s, i) => s.className = i < 5 ? 'fas fa-star' : 'far fa-star');
+              notaInput.value = 5;
+            } else {
+              alert('❌ Ocorreu um erro. Tente novamente.');
+            }
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+            alert('❌ Erro ao enviar. Verifique sua conexão.');
+          })
+          .finally(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          });
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>

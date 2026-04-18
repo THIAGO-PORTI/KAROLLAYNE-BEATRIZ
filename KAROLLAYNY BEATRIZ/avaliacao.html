@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avalie seu atendimento · Dra. Karollayny</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .form-container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(16px);
+      border-radius: 40px 15px 40px 15px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 30px 50px -15px #0284C7;
+      border: 2px solid white;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #0369a1;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+    }
+    .subtitulo {
+      text-align: center;
+      color: #0284c7;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .pergunta {
+      margin-bottom: 1.8rem;
+    }
+    label {
+      font-weight: 600;
+      color: #0369a1;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid rgba(255,255,255,0.8);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.8);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #0284C7;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(2,132,199,0.1);
+    }
+    .estrelas-avaliacao {
+      display: flex;
+      gap: 10px;
+      font-size: 2rem;
+      color: #fbbf24;
+      cursor: pointer;
+    }
+    .estrelas-avaliacao i {
+      transition: transform 0.2s;
+    }
+    .estrelas-avaliacao i:hover { transform: scale(1.2); }
+    .btn-enviar {
+      background: linear-gradient(135deg, #0284C7, #0369a1);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      width: 100%;
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 10px 20px rgba(2,132,199,0.3);
+      transition: 0.3s;
+      margin-top: 1rem;
+    }
+    .btn-enviar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(2,132,199,0.4);
+    }
+    .msg-sucesso {
+      background: #22c55e;
+      color: white;
+      padding: 15px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Avalie seu atendimento</h1>
+    <p class="subtitulo">Dra. Karollayny Beatriz</p>
+    
+    <div id="msgSucesso" class="msg-sucesso">
+      <i class="fas fa-check-circle"></i> Avaliação enviada com sucesso! Obrigado!
+    </div>
+
+    <form id="formAvaliacao">
+      <div class="pergunta">
+        <label>Seu nome *</label>
+        <input type="text" id="nome" required>
+      </div>
+
+      <div class="pergunta">
+        <label>Como você avalia o atendimento? *</label>
+        <div class="estrelas-avaliacao" id="estrelasNota">
+          <i class="far fa-star" data-valor="1"></i>
+          <i class="far fa-star" data-valor="2"></i>
+          <i class="far fa-star" data-valor="3"></i>
+          <i class="far fa-star" data-valor="4"></i>
+          <i class="far fa-star" data-valor="5"></i>
+        </div>
+        <input type="hidden" id="nota" value="5">
+      </div>
+
+      <div class="pergunta">
+        <label>O que você achou do atendimento? *</label>
+        <textarea id="comentario" rows="3" required placeholder="Conte um pouco sobre sua experiência..."></textarea>
+      </div>
+
+      <div class="pergunta">
+        <label>Como você conheceu a Dra. Karollayny?</label>
+        <select id="comoConheceu">
+          <option value="">Selecione...</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Indicação">Indicação de amigo/familiar</option>
+          <option value="UNINASSAU">UNINASSAU</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="pergunta">
+        <label>Você voltaria a se consultar ou recomendaria?</label>
+        <select id="voltaria">
+          <option value="Sim">Sim, com certeza!</option>
+          <option value="Talvez">Talvez</option>
+          <option value="Nao">Não</option>
+        </select>
+      </div>
+
+      <div class="pergunta">
+        <label>E-mail (opcional)</label>
+        <input type="email" id="email" placeholder="seu@email.com">
+      </div>
+
+      <div class="pergunta">
+        <label>Telefone (opcional)</label>
+        <input type="tel" id="telefone" placeholder="(81) 99999-9999">
+      </div>
+
+      <button type="submit" class="btn-enviar">
+        <i class="fas fa-paper-plane"></i> Enviar avaliação
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // ========== CONFIGURAÇÃO JSONBIN ==========
+    const JSONBIN_CONFIG = {
+      accessKey: "$2a$10$.EUPvSrSzhLHlNWMg3rw4eEmvrbkj.DosfyVq7XfunZm2YDn/rIpC",  // <-- COLE SUA ACCESS KEY
+      binId: null,  // Será criado automaticamente
+      apiUrl: "https://api.jsonbin.io/v3/b"
+    };
+
+    // ========== ESTRELAS INTERATIVAS ==========
+    const stars = document.querySelectorAll('#estrelasNota i');
+    const notaInput = document.getElementById('nota');
+    
+    function atualizarEstrelas(valor) {
+      stars.forEach((s, i) => {
+        s.className = i < valor ? 'fas fa-star' : 'far fa-star';
+      });
+      notaInput.value = valor;
+    }
+    
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => atualizarEstrelas(index + 1));
+      star.addEventListener('mouseenter', () => {
+        stars.forEach((s, i) => s.className = i <= index ? 'fas fa-star' : 'far fa-star');
+      });
+    });
+    document.getElementById('estrelasNota').addEventListener('mouseleave', () => {
+      atualizarEstrelas(parseInt(notaInput.value));
+    });
+    atualizarEstrelas(5);
+
+    // ========== CRIAR BIN AUTOMATICAMENTE (SE NÃO EXISTIR) ==========
+    async function garantirBinExiste() {
+      let binId = localStorage.getItem('avaliacao_bin_id');
+      if (binId) {
+        JSONBIN_CONFIG.binId = binId;
+        return binId;
+      }
+      
+      try {
+        const response = await fetch(JSONBIN_CONFIG.apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Key': JSONBIN_CONFIG.accessKey,
+            'X-Bin-Name': 'avaliacoes-karollayny'
+          },
+          body: JSON.stringify([]) // array vazio inicial
+        });
+        const data = await response.json();
+        binId = data.metadata.id;
+        localStorage.setItem('avaliacao_bin_id', binId);
+        JSONBIN_CONFIG.binId = binId;
+        console.log('✅ Bin criado:', binId);
+        return binId;
+      } catch (erro) {
+        console.error('Erro ao criar Bin:', erro);
+        alert('Erro de configuração. Contate o administrador.');
+        throw erro;
+      }
+    }
+
+    // ========== ENVIAR AVALIAÇÃO ==========
+    document.getElementById('formAvaliacao').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = e.target.querySelector('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+      btn.disabled = true;
+      
+      try {
+        await garantirBinExiste();
+        
+        const avaliacao = {
+          nome: document.getElementById('nome').value,
+          nota: parseInt(notaInput.value),
+          comentario: document.getElementById('comentario').value,
+          comoConheceu: document.getElementById('comoConheceu').value,
+          voltaria: document.getElementById('voltaria').value,
+          email: document.getElementById('email').value,
+          telefone: document.getElementById('telefone').value,
+          status: 'PENDENTE',
+          data: new Date().toLocaleDateString('pt-BR'),
+          timestamp: Date.now()
+        };
+        
+        // Buscar avaliações atuais
+        const getResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
+          headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
+        });
+        const currentData = await getResp.json();
+        const avaliacoes = currentData.record || [];
+        
+        // Adicionar nova
+        avaliacoes.push(avaliacao);
+        
+        // Salvar
+        const putResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Key': JSONBIN_CONFIG.accessKey
+          },
+          body: JSON.stringify(avaliacoes)
+        });
+        
+        if (!putResp.ok) throw new Error('Erro ao salvar');
+        
+        document.getElementById('msgSucesso').style.display = 'block';
+        document.getElementById('formAvaliacao').reset();
+        atualizarEstrelas(5);
+        
+        setTimeout(() => {
+          document.getElementById('msgSucesso').style.display = 'none';
+        }, 5000);
+        
+      } catch (erro) {
+        console.error(erro);
+        alert('Erro ao enviar avaliação. Tente novamente.');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
