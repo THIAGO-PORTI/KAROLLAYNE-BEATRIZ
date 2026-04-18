@@ -13,15 +13,655 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <!-- AOS (Animate On Scroll) -->
+  <!-- AOS -->
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   
-  <!-- CSS principal -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ========== CSS COMPLETO ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --azul-bebe: #E0F2FE;
+      --azul-escuro: #0284C7;
+      --azul-profundo: #0369a1;
+      --branco: #ffffff;
+      --sombra-suave: 0 15px 30px -8px rgba(2, 132, 199, 0.2);
+      --sombra-hover: 0 25px 40px -12px #0284C7;
+      --transicao: all 0.3s ease;
+    }
+    body {
+      background: linear-gradient(145deg, #E0F2FE 0%, #BAE6FD 50%, #7DD3FC 100%);
+      font-family: 'Montserrat', sans-serif;
+      color: #1E293B;
+      min-height: 100vh;
+      padding: 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+    #wave-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+    .portfolio {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    /* Loader */
+    .loader-wrapper {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--azul-bebe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.6s, visibility 0.6s;
+    }
+    .loader-wrapper.hidden { opacity: 0; visibility: hidden; }
+    .loader i {
+      font-size: 3.5rem;
+      color: var(--azul-escuro);
+      animation: pulse 1.5s infinite;
+    }
+    .loader p { margin-top: 1rem; color: var(--azul-profundo); font-weight: 500; }
+    @keyframes pulse {
+      0%,100%{transform:scale(1);opacity:1;}
+      50%{transform:scale(1.15);opacity:0.7;}
+    }
+    /* Cabeçalho */
+    .header-moderno {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 40px 15px 40px 15px;
+      padding: 1.8rem 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--sombra-suave), inset 0 0 0 1px rgba(255,255,255,0.6);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    @media (min-width: 769px) {
+      .header-moderno { padding: 1.8rem 2.5rem; border-radius: 60px 20px 60px 20px; }
+    }
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    @media (min-width: 769px) {
+      .header-container { flex-direction: row; justify-content: space-between; align-items: center; }
+      .header-foto { order: 1; margin: 0; }
+      .header-texto { order: 2; text-align: center; flex: 1; }
+      .logo-dente { order: 3; margin: 0; }
+    }
+    .header-foto {
+      width: 130px; height: 130px;
+      border-radius: 50% 30% 50% 30% / 40% 50% 40% 50%;
+      overflow: hidden;
+      border: 5px solid white;
+      box-shadow: 0 18px 25px -10px var(--azul-escuro);
+      margin: 0 auto;
+      animation: morph 8s infinite alternate;
+    }
+    @media (min-width: 769px) { .header-foto { width: 120px; height: 120px; } }
+    .header-foto img { width: 100%; height: 100%; object-fit: cover; }
+    @keyframes morph {
+      0% { border-radius: 50% 30% 50% 30% / 40% 50% 40% 50%; }
+      100% { border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; }
+    }
+    .logo-dente {
+      width: 70px; height: 70px;
+      background: radial-gradient(circle at 30% 30%, white, #f0f9ff);
+      border-radius: 40% 60% 40% 60% / 50% 40% 60% 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px -5px var(--azul-escuro);
+      border: 3px solid white;
+      margin: 0 auto;
+      animation: float 4s ease-in-out infinite;
+    }
+    .logo-dente img { width: 85%; height: 85%; object-fit: contain; }
+    @keyframes float {
+      0%,100%{transform:rotate(-4deg) translateY(0);}
+      50%{transform:rotate(-2deg) translateY(-5px);}
+    }
+    .header-texto h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--azul-profundo), var(--azul-escuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .header-texto h1 span {
+      display: block;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+    @media (min-width: 769px) {
+      .header-texto h1 { font-size: 2.6rem; }
+      .header-texto h1 span { font-size: 1.1rem; }
+    }
+    .header-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px 0 10px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      padding: 7px 15px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--azul-escuro);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      border: 1px solid rgba(255,255,255,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    @media (max-width: 380px) {
+      .badge { white-space: normal; font-size: 0.7rem; padding: 6px 10px; }
+    }
+    .insta-header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      border: 2px solid white;
+      margin: 5px auto 0;
+      width: fit-content;
+      transition: var(--transicao);
+    }
+    .insta-header i { font-size: 1.2rem; }
+
+    /* Seção Sobre */
+    .sobre-lado { margin-bottom: 2.5rem; }
+    .sobre-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    @media (min-width: 769px) {
+      .sobre-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        align-items: center;
+        gap: 2.5rem;
+      }
+    }
+    .sobre-foto {
+      position: relative;
+      border-radius: 80px 15px 80px 15px;
+      overflow: hidden;
+      box-shadow: var(--sombra-suave);
+      border: 6px solid white;
+      aspect-ratio: 4/5;
+      max-width: 320px;
+      margin: 0 auto;
+      width: 100%;
+      transition: var(--transicao);
+    }
+    .sobre-foto:hover { transform: scale(1.02); box-shadow: var(--sombra-hover); }
+    .sobre-foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .sobre-foto:hover img { transform: scale(1.08); }
+    .sobre-conteudo {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 30px 10px 30px 10px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: var(--sombra-suave), inset 0 0 0 1px rgba(255,255,255,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    @media (min-width: 769px) { .sobre-conteudo { padding: 2rem 2.2rem; } }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .section-header i {
+      font-size: 1.8rem;
+      color: var(--azul-escuro);
+      background: white;
+      padding: 9px;
+      border-radius: 50%;
+      box-shadow: 0 5px 12px rgba(2,132,199,0.15);
+    }
+    .section-header h2, .section-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--azul-profundo), var(--azul-escuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sobre-conteudo p {
+      margin-bottom: 16px;
+      line-height: 1.7;
+      color: #1e3a5f;
+      font-size: 0.95rem;
+    }
+    .sobre-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .sobre-tags span {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--azul-profundo);
+      border: 1.5px solid rgba(255,255,255,0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Números e Diferenciais */
+    .resultados-section { margin-bottom: 2.5rem; }
+    .resultados-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    @media (min-width: 700px) {
+      .resultados-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+    .numeros-card, .diferencial-card {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 30px 10px 30px 10px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: var(--sombra-suave), inset 0 0 0 1px rgba(255,255,255,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .numeros-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    .numero-item { text-align: center; }
+    .numero-contador {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--azul-profundo), var(--azul-escuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .numero-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--azul-profundo);
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .diferencial-lista {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+    .diferencial-lista li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+      color: #1e3a5f;
+      font-size: 1rem;
+    }
+    .diferencial-lista li i {
+      color: var(--azul-escuro);
+      font-size: 1.3rem;
+      width: 24px;
+    }
+
+    /* Embaixadora */
+    .embaixadora-section {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 40px 15px 40px 15px;
+      padding: 2rem 1.2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--sombra-suave), inset 0 0 0 1px rgba(255,255,255,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .marcas-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 600px) { .marcas-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .marcas-grid { grid-template-columns: repeat(4, 1fr); } }
+    .marca-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 25px 8px 25px 8px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 8px 20px -5px rgba(2,132,199,0.15);
+      border: 2px solid rgba(255,255,255,0.6);
+      transition: var(--transicao);
+    }
+    .marca-card i { font-size: 2.5rem; color: var(--azul-escuro); }
+    .marca-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--azul-profundo);
+      margin: 8px 0 5px;
+    }
+    .insta-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      color: var(--azul-escuro);
+      background: rgba(224,242,254,0.8);
+      padding: 5px 12px;
+      border-radius: 30px;
+    }
+    .insta-wrapper { text-align: center; }
+    .insta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 15px 30px -5px rgba(0,0,0,0.2);
+      border: 3px solid white;
+      transition: var(--transicao);
+    }
+
+    /* Grid assimétrico */
+    .grid-absurdo {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    @media (min-width: 901px) {
+      .grid-absurdo {
+        display: grid;
+        grid-template-columns: 0.9fr 1.2fr 0.8fr 1.1fr;
+        gap: 2rem;
+      }
+    }
+    .foto-card {
+      background-color: white;
+      border-radius: 20px 8px 20px 8px;
+      box-shadow: var(--sombra-suave);
+      overflow: hidden;
+      border: 3px solid white;
+      width: 100%;
+      transition: var(--transicao);
+    }
+    .foto-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @media (max-width: 900px) {
+      .foto1, .foto2, .foto3, .foto4 { aspect-ratio: 16 / 9; }
+      .foto2 { aspect-ratio: 4 / 3; }
+      .foto3 { aspect-ratio: 1 / 1; }
+    }
+    @media (min-width: 901px) {
+      .foto1 { grid-column: 2 / 4; grid-row: 1 / 3; aspect-ratio: 16 / 10; border-radius: 0 80px 0 80px; transform: rotate(0.5deg); }
+      .foto2 { grid-column: 1 / 2; grid-row: 1 / 3; aspect-ratio: 3 / 4; border-radius: 60px 8px 60px 8px; transform: rotate(-1deg); }
+      .foto3 { grid-column: 4 / 5; grid-row: 1 / 3; aspect-ratio: 1 / 1; border-radius: 50% 20% 50% 20%; transform: rotate(2deg); border: 6px solid white; }
+      .foto4 { grid-column: 1 / 3; grid-row: 5 / 6; aspect-ratio: 21 / 9; border-radius: 100px 4px 100px 4px; transform: rotate(-0.8deg); }
+    }
+    .competencias, .experiencia, .objetivos {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 25px 8px 25px 8px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: var(--sombra-suave), inset 0 0 0 1px rgba(255,255,255,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    @media (min-width: 901px) {
+      .competencias { grid-column: 1 / 2; grid-row: 3 / 5; transform: rotate(-1deg); }
+      .experiencia { grid-column: 2 / 4; grid-row: 3 / 4; transform: rotate(-0.8deg); }
+      .objetivos { grid-column: 4 / 5; grid-row: 3 / 5; transform: rotate(1.5deg); }
+    }
+    .lista-competencias { list-style: none; margin-top: 15px; }
+    .lista-competencias li { margin-bottom: 18px; }
+    .competencia-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .competencia-item i { color: var(--azul-escuro); }
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-left: 26px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--azul-escuro), var(--azul-profundo));
+      border-radius: 10px;
+      width: 0;
+      transition: width 1.8s;
+    }
+    .progress-fill.animate { width: var(--width); }
+    .exp-item { margin-bottom: 20px; }
+    .exp-titulo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .exp-titulo i { color: var(--azul-escuro); }
+    .exp-data {
+      background: white;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--azul-escuro);
+      margin-left: auto;
+    }
+    .assinatura {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--azul-profundo);
+      font-weight: 400;
+    }
+    @media (min-width: 769px) { .assinatura { text-align: right; } }
+
+    /* Carrossel de depoimentos */
+    .carrossel-depoimentos {
+      margin: 3rem 0 2rem;
+      padding: 2rem 1.5rem;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(16px);
+      border-radius: 40px 15px 40px 15px;
+      box-shadow: var(--sombra-suave);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .carrossel-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .carrossel-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carrossel-slide {
+      min-width: 100%;
+      padding: 0.5rem 1rem;
+    }
+    .depoimento-card-carrossel {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 30px 10px 30px 10px;
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      border: 1px solid white;
+    }
+    .quote-icon {
+      color: var(--azul-escuro);
+      opacity: 0.3;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    .depoimento-card-carrossel .estrelas {
+      color: #fbbf24;
+      font-size: 1.3rem;
+      letter-spacing: 5px;
+      margin-bottom: 15px;
+    }
+    .depoimento-texto {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #1e3a5f;
+      font-style: italic;
+      margin-bottom: 20px;
+      min-height: 80px;
+    }
+    .depoimento-autor {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .depoimento-autor i {
+      font-size: 2rem;
+      color: var(--azul-escuro);
+      opacity: 0.8;
+    }
+    .depoimento-autor strong {
+      color: var(--azul-profundo);
+      font-size: 1.1rem;
+    }
+    .depoimento-data {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--azul-escuro);
+      opacity: 0.7;
+    }
+    .carrossel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 45px;
+      height: 45px;
+      background: white;
+      border: 2px solid var(--azul-escuro);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--azul-escuro);
+      font-size: 1.2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: var(--transicao);
+      z-index: 10;
+    }
+    .carrossel-btn:hover { background: var(--azul-escuro); color: white; }
+    .carrossel-btn.prev { left: -10px; }
+    .carrossel-btn.next { right: -10px; }
+    @media (max-width: 600px) {
+      .carrossel-btn.prev { left: 0; }
+      .carrossel-btn.next { right: 0; }
+    }
+    .carrossel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transicao);
+      border: 1px solid white;
+    }
+    .dot.active {
+      background: var(--azul-escuro);
+      transform: scale(1.3);
+    }
+
+    /* Botão voltar ao topo */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      background: var(--azul-escuro);
+      color: white;
+      border: 3px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transicao);
+      box-shadow: 0 8px 20px rgba(2,132,199,0.4);
+      z-index: 100;
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    [data-aos] { transition-timing-function: cubic-bezier(0.25,0.1,0.25,1); }
+  </style>
 </head>
 <body>
 
-  <!-- Loader -->
   <div class="loader-wrapper" id="loader">
     <div class="loader">
       <i class="fas fa-tooth"></i>
@@ -31,7 +671,6 @@
 
   <canvas id="wave-canvas"></canvas>
 
-  <!-- Cabeçalho -->
   <header class="header-moderno" data-aos="fade-down" data-aos-duration="800">
     <div class="header-container">
       <div class="logo-dente tilt-card">
@@ -55,25 +694,19 @@
   </header>
 
   <main class="portfolio">
-
     <!-- Sobre -->
     <section class="sobre-lado" data-aos="fade-up" data-aos-duration="1000">
       <div class="sobre-grid">
         <div class="sobre-foto tilt-card" data-aos="zoom-in-right" data-aos-delay="200">
           <img src="img/perfil-grande.jpg" alt="Karollayny Beatriz">
-          <div class="moldura-branca"></div>
         </div>
         <div class="sobre-conteudo" data-aos="fade-left" data-aos-delay="400">
           <div class="section-header">
             <i class="fas fa-user-circle"></i>
             <h2>Sobre mim</h2>
           </div>
-          <p>
-            Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.
-          </p>
-          <p>
-            Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor.
-          </p>
+          <p>Olá! Sou <strong>Karollayny Beatriz do Nascimento</strong>, tenho 23 anos e estou no <strong>7º período de Odontologia</strong> na UNINASSAU Graças. Minha paixão pela odontologia nasceu da vontade de devolver sorrisos e autoestima às pessoas.</p>
+          <p>Acredito em um atendimento humanizado, que una técnica precisa, empatia e estética. Durante a graduação, desenvolvi habilidades em dentística restauradora, periodontia e cirurgia oral menor.</p>
           <div class="sobre-tags">
             <span><i class="fas fa-star"></i> Estética Dental</span>
             <span><i class="fas fa-heart"></i> Humanização</span>
@@ -84,7 +717,7 @@
       </div>
     </section>
 
-    <!-- Em números -->
+    <!-- Em números e Diferenciais -->
     <section class="resultados-section" data-aos="fade-up" data-aos-duration="1000">
       <div class="resultados-grid">
         <div class="numeros-card" data-aos="zoom-in" data-aos-delay="100">
@@ -93,31 +726,14 @@
             <h3>Em números</h3>
           </div>
           <div class="numeros-container">
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="50">0</span>
-              <span class="numero-label">Restaurações</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="20">0</span>
-              <span class="numero-label">Clareamentos</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="15">0</span>
-              <span class="numero-label">Exodontias</span>
-            </div>
-            <div class="numero-item">
-              <span class="numero-contador" data-alvo="30">0</span>
-              <span class="numero-label">Atendimentos Infantis</span>
-            </div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="50">0</span><span class="numero-label">Restaurações</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="20">0</span><span class="numero-label">Clareamentos</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="15">0</span><span class="numero-label">Exodontias</span></div>
+            <div class="numero-item"><span class="numero-contador" data-alvo="30">0</span><span class="numero-label">Atendimentos Infantis</span></div>
           </div>
         </div>
-
-        <!-- Espaço para manter simetria (opcional: pode colocar um card de diferencial) -->
         <div class="diferencial-card" data-aos="zoom-in" data-aos-delay="200">
-          <div class="section-header">
-            <i class="fas fa-heart"></i>
-            <h3>Diferenciais</h3>
-          </div>
+          <div class="section-header"><i class="fas fa-heart"></i><h3>Diferenciais</h3></div>
           <ul class="diferencial-lista">
             <li><i class="fas fa-check-circle"></i> Atendimento humanizado</li>
             <li><i class="fas fa-check-circle"></i> Técnicas minimamente invasivas</li>
@@ -130,65 +746,23 @@
 
     <!-- Embaixadora -->
     <section class="embaixadora-section" data-aos="fade-up" data-aos-duration="800">
-      <div class="section-header central">
-        <i class="fas fa-handshake"></i>
-        <h2>Embaixadora de Marcas</h2>
-      </div>
+      <div class="section-header central"><i class="fas fa-handshake"></i><h2>Embaixadora de Marcas</h2></div>
       <div class="marcas-grid">
-        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-tooth"></i>
-            <h4>American Burrs</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-laptop-medical"></i>
-            <h4>Dentista On</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-users"></i>
-            <h4>Orais Manequins</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link">
-          <div class="marca-card tilt-card">
-            <i class="fas fa-graduation-cap"></i>
-            <h4>Instituto Maylson Regino</h4>
-            <span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span>
-          </div>
-        </a>
+        <a href="https://www.instagram.com/americanburrs/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-tooth"></i><h4>American Burrs</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @americanburrs</span></div></a>
+        <a href="https://www.instagram.com/dentistaon_/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-laptop-medical"></i><h4>Dentista On</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @dentistaon_</span></div></a>
+        <a href="https://www.instagram.com/oraismanequins/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-users"></i><h4>Orais Manequins</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @oraismanequins</span></div></a>
+        <a href="https://www.instagram.com/institutomaylsonregino/" target="_blank" class="marca-link"><div class="marca-card tilt-card"><i class="fas fa-graduation-cap"></i><h4>Instituto Maylson Regino</h4><span class="insta-handle"><i class="fab fa-instagram"></i> @institutomaylsonregino</span></div></a>
       </div>
-      <div class="insta-wrapper">
-        <a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn">
-          <i class="fab fa-instagram"></i> Siga @odontoporbeatriz
-        </a>
-      </div>
+      <div class="insta-wrapper"><a href="https://www.instagram.com/odontoporbeatriz/" target="_blank" class="insta-btn"><i class="fab fa-instagram"></i> Siga @odontoporbeatriz</a></div>
     </section>
 
-    <!-- Grid Assimétrico -->
+    <!-- Grid assimétrico -->
     <div class="grid-absurdo">
-      
-      <div class="foto-card foto1 tilt-card" data-aos="flip-left">
-        <img src="img/foto1.jpg" alt="Procedimento clínico">
-      </div>
-      <div class="foto-card foto2 tilt-card" data-aos="fade-up">
-        <img src="img/foto2.jpg" alt="Estudante em atendimento">
-      </div>
-      <div class="foto-card foto3 tilt-card" data-aos="fade-up">
-        <img src="img/foto3.jpg" alt="Instrumental odontológico">
-      </div>
-
+      <div class="foto-card foto1 tilt-card" data-aos="flip-left"><img src="img/foto1.jpg" alt="Procedimento clínico"></div>
+      <div class="foto-card foto2 tilt-card" data-aos="fade-up"><img src="img/foto2.jpg" alt="Estudante em atendimento"></div>
+      <div class="foto-card foto3 tilt-card" data-aos="fade-up"><img src="img/foto3.jpg" alt="Instrumental odontológico"></div>
       <div class="competencias" data-aos="fade-right">
-        <div class="section-header">
-          <i class="fas fa-cogs"></i>
-          <h3>Competências</h3>
-        </div>
+        <div class="section-header"><i class="fas fa-cogs"></i><h3>Competências</h3></div>
         <ul class="lista-competencias">
           <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Restaurações estéticas diretas</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 90%"></div></div></li>
           <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Clareamento dental</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 85%"></div></div></li>
@@ -199,102 +773,49 @@
           <li><div class="competencia-item"><i class="fas fa-check-circle"></i><span>Biossegurança</span></div><div class="progress-bar"><div class="progress-fill" style="--width: 95%"></div></div></li>
         </ul>
       </div>
-
       <div class="experiencia" data-aos="fade-up">
-        <div class="section-header">
-          <i class="fas fa-briefcase-medical"></i>
-          <h3>Experiência Clínica</h3>
-        </div>
-        <div class="exp-item">
-          <div class="exp-titulo">
-            <i class="fas fa-hospital-user"></i>
-            <h4>Clínica-Escola UNINASSAU</h4>
-            <span class="exp-data">2024 – Atual</span>
-          </div>
-          <p>Atendimento a pacientes sob supervisão docente, realizando procedimentos de dentística, periodontia e cirurgia.</p>
-        </div>
-        <div class="exp-item">
-          <div class="exp-titulo">
-            <i class="fas fa-users"></i>
-            <h4>Estágio Extramuros – UBS</h4>
-            <span class="exp-data">2025</span>
-          </div>
-          <p>Acompanhamento de equipe de saúde bucal em Unidade Básica de Saúde, com foco em prevenção.</p>
-        </div>
+        <div class="section-header"><i class="fas fa-briefcase-medical"></i><h3>Experiência Clínica</h3></div>
+        <div class="exp-item"><div class="exp-titulo"><i class="fas fa-hospital-user"></i><h4>Clínica-Escola UNINASSAU</h4><span class="exp-data">2024 – Atual</span></div><p>Atendimento a pacientes sob supervisão docente, realizando procedimentos de dentística, periodontia e cirurgia.</p></div>
+        <div class="exp-item"><div class="exp-titulo"><i class="fas fa-users"></i><h4>Estágio Extramuros – UBS</h4><span class="exp-data">2025</span></div><p>Acompanhamento de equipe de saúde bucal em Unidade Básica de Saúde, com foco em prevenção.</p></div>
       </div>
-
       <div class="objetivos" data-aos="fade-left">
-        <div class="section-header">
-          <i class="fas fa-bullseye"></i>
-          <h3>Objetivos</h3>
-        </div>
-        <p>
-          Concluir a graduação com excelência e ingressar em uma especialização em <strong>Endodontia</strong> e ser aprovada na residência de <strong>Buco Maxilo Facial</strong> e <strong>Odontologia hospitalar</strong>.
-        </p>
+        <div class="section-header"><i class="fas fa-bullseye"></i><h3>Objetivos</h3></div>
+        <p>Concluir a graduação com excelência e ingressar em uma especialização em <strong>Endodontia</strong> e ser aprovada na residência de <strong>Buco Maxilo Facial</strong> e <strong>Odontologia hospitalar</strong>.</p>
       </div>
-
-      <div class="foto-card foto4 tilt-card" data-aos="zoom-in">
-        <img src="img/foto4.jpg" alt="Ambiente clínico">
-      </div>
-
+      <div class="foto-card foto4 tilt-card" data-aos="zoom-in"><img src="img/foto4.jpg" alt="Ambiente clínico"></div>
     </div>
 
-    <!-- ========== CARROSSEL DE DEPOIMENTOS APROVADOS ========== -->
+    <!-- Carrossel de Depoimentos -->
     <section class="carrossel-depoimentos" id="carrosselDepoimentos" style="display: none;">
-      <div class="section-header central">
-        <i class="fas fa-star"></i>
-        <h2>O que dizem nossos pacientes</h2>
-      </div>
-      
+      <div class="section-header central"><i class="fas fa-star"></i><h2>O que dizem nossos pacientes</h2></div>
       <div class="carrossel-container">
-        <button class="carrossel-btn prev" id="carrosselPrev" aria-label="Depoimento anterior">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        
+        <button class="carrossel-btn prev" id="carrosselPrev"><i class="fas fa-chevron-left"></i></button>
         <div class="carrossel-slides" id="carrosselSlides"></div>
-        
-        <button class="carrossel-btn next" id="carrosselNext" aria-label="Próximo depoimento">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-        
+        <button class="carrossel-btn next" id="carrosselNext"><i class="fas fa-chevron-right"></i></button>
         <div class="carrossel-dots" id="carrosselDots"></div>
       </div>
     </section>
 
-    <!-- Rodapé -->
-    <footer class="assinatura" data-aos="fade-up" data-aos-delay="200">
-      <span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span>
-    </footer>
-
+    <footer class="assinatura" data-aos="fade-up"><span>Portfólio Acadêmico · Odontologia · Karollayny Beatriz</span></footer>
   </main>
 
-  <!-- Botão Voltar ao Topo -->
-  <div class="back-to-top" id="backToTop">
-    <i class="fas fa-chevron-up"></i>
-  </div>
+  <div class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></div>
 
-  <!-- Scripts -->
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
-  
   <script>
     (function() {
       "use strict";
 
-      // ========== CONFIGURAÇÃO JSONBIN ==========
       const JSONBIN_CONFIG = {
-        accessKey: "SUA_ACCESS_KEY_AQUI",  // <-- SUBSTITUA PELA SUA ACCESS KEY
-        apiUrl: "https://api.jsonbin.io/v3/b",
-        binId: null
+        binId: "69dfbb14aaba88219701b2df",
+        accessKey: "$2a$10$ruJXREBGaC.Q2kws5uHE6OT1rYbPNULg1Sk7Pw6wm5X7ScI6IdThq",
+        apiUrl: "https://api.jsonbin.io/v3/b"
       };
 
       // Loader
       window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
-
-      // AOS
       AOS.init({ once: true, offset: 80, duration: 800 });
-
-      // Vanilla Tilt
       if (typeof VanillaTilt !== 'undefined') {
         VanillaTilt.init(document.querySelectorAll(".tilt-card"), { max: 6, speed: 400, glare: true, "max-glare": 0.2 });
       }
@@ -337,7 +858,7 @@
       window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 300));
       backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-      // Contador de números
+      // Contadores
       const contadorObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -355,35 +876,7 @@
       }, { threshold: 0.5 });
       document.querySelectorAll('.numero-contador').forEach(c => contadorObserver.observe(c));
 
-      // ========== CARROSSEL DE DEPOIMENTOS ==========
-      async function obterBinId() {
-        let binId = localStorage.getItem('avaliacao_bin_id');
-        if (binId) {
-          JSONBIN_CONFIG.binId = binId;
-          return binId;
-        }
-        try {
-          const response = await fetch(JSONBIN_CONFIG.apiUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Access-Key': JSONBIN_CONFIG.accessKey,
-              'X-Bin-Name': 'avaliacoes-karollayny'
-            },
-            body: JSON.stringify([])
-          });
-          if (!response.ok) throw new Error('Erro ao criar Bin');
-          const data = await response.json();
-          binId = data.metadata.id;
-          localStorage.setItem('avaliacao_bin_id', binId);
-          JSONBIN_CONFIG.binId = binId;
-          return binId;
-        } catch (erro) {
-          console.error('Erro ao criar Bin:', erro);
-          return null;
-        }
-      }
-
+      // Carrossel de depoimentos
       let depoimentosAprovados = [];
       let slideAtual = 0;
       const slidesContainer = document.getElementById('carrosselSlides');
@@ -392,13 +885,18 @@
       const prevBtn = document.getElementById('carrosselPrev');
       const nextBtn = document.getElementById('carrosselNext');
 
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
       function renderizarCarrossel() {
         if (!depoimentosAprovados.length) {
           carrosselSection.style.display = 'none';
           return;
         }
         carrosselSection.style.display = 'block';
-        
         slidesContainer.innerHTML = depoimentosAprovados.map(dep => `
           <div class="carrossel-slide">
             <div class="depoimento-card-carrossel">
@@ -413,25 +911,10 @@
             </div>
           </div>
         `).join('');
-        
-        dotsContainer.innerHTML = depoimentosAprovados.map((_, i) => 
-          `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
-        ).join('');
-        
-        document.querySelectorAll('.dot').forEach(dot => {
-          dot.addEventListener('click', (e) => {
-            irParaSlide(parseInt(e.target.dataset.index));
-          });
-        });
-        
+        dotsContainer.innerHTML = depoimentosAprovados.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('');
+        document.querySelectorAll('.dot').forEach(dot => dot.addEventListener('click', (e) => irParaSlide(parseInt(e.target.dataset.index))));
         slideAtual = 0;
         atualizarSlide();
-      }
-
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
       }
 
       function irParaSlide(index) {
@@ -443,32 +926,21 @@
 
       function atualizarSlide() {
         slidesContainer.style.transform = `translateX(-${slideAtual * 100}%)`;
-        document.querySelectorAll('.dot').forEach((dot, i) => {
-          dot.classList.toggle('active', i === slideAtual);
-        });
+        document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === slideAtual));
       }
 
       prevBtn.addEventListener('click', () => irParaSlide(slideAtual - 1));
       nextBtn.addEventListener('click', () => irParaSlide(slideAtual + 1));
 
-      // Swipe para mobile
       let touchStartX = 0;
-      slidesContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
+      slidesContainer.addEventListener('touchstart', (e) => touchStartX = e.changedTouches[0].screenX);
       slidesContainer.addEventListener('touchend', (e) => {
         const diff = e.changedTouches[0].screenX - touchStartX;
-        if (Math.abs(diff) > 50) {
-          if (diff > 0) irParaSlide(slideAtual - 1);
-          else irParaSlide(slideAtual + 1);
-        }
+        if (Math.abs(diff) > 50) irParaSlide(slideAtual + (diff > 0 ? -1 : 1));
       });
 
-      async function carregarDepoimentosParaCarrossel() {
+      async function carregarDepoimentos() {
         try {
-          await obterBinId();
-          if (!JSONBIN_CONFIG.binId) return;
-          
           const resp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
             headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
           });
@@ -476,7 +948,6 @@
           const avaliacoes = data.record || [];
           depoimentosAprovados = avaliacoes.filter(a => a.status === 'APROVADO');
           depoimentosAprovados.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-          
           renderizarCarrossel();
         } catch (erro) {
           console.error('Erro ao carregar depoimentos:', erro);
@@ -484,7 +955,7 @@
         }
       }
 
-      carregarDepoimentosParaCarrossel();
+      carregarDepoimentos();
     })();
   </script>
 </body>
