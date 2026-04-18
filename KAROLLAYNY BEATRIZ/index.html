@@ -84,10 +84,9 @@
       </div>
     </section>
 
-    <!-- Resultados e Formulário de Avaliação -->
+    <!-- Em números -->
     <section class="resultados-section" data-aos="fade-up" data-aos-duration="1000">
       <div class="resultados-grid">
-        
         <div class="numeros-card" data-aos="zoom-in" data-aos-delay="100">
           <div class="section-header">
             <i class="fas fa-chart-line"></i>
@@ -113,53 +112,19 @@
           </div>
         </div>
 
-        <!-- Card de Avaliação Privada -->
-        <div class="avaliacao-card" data-aos="zoom-in" data-aos-delay="200">
+        <!-- Espaço para manter simetria (opcional: pode colocar um card de diferencial) -->
+        <div class="diferencial-card" data-aos="zoom-in" data-aos-delay="200">
           <div class="section-header">
-            <i class="fas fa-pen-to-square"></i>
-            <h3>Avalie seu atendimento</h3>
+            <i class="fas fa-heart"></i>
+            <h3>Diferenciais</h3>
           </div>
-          
-          <p class="avaliacao-intro">
-            Sua opinião é muito importante! Ela será enviada diretamente para a Dra. Karollayny.
-          </p>
-
-          <form class="avaliacao-form" id="formAvaliacao" action="https://formsubmit.co/ajax/SEU_EMAIL_AQUI" method="POST">
-            <!-- Substitua SEU_EMAIL_AQUI pelo e-mail real da cliente -->
-            <input type="hidden" name="_subject" value="Nova avaliação do Portfólio">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            
-            <div class="form-group">
-              <input type="text" name="nome" id="avNome" placeholder="Seu nome" required>
-            </div>
-            
-            <div class="form-group estrelas-input">
-              <label>Sua nota:</label>
-              <div class="estrelas-selecao" id="estrelasAvaliacao">
-                <i class="fas fa-star" data-valor="1"></i>
-                <i class="fas fa-star" data-valor="2"></i>
-                <i class="fas fa-star" data-valor="3"></i>
-                <i class="fas fa-star" data-valor="4"></i>
-                <i class="fas fa-star" data-valor="5"></i>
-              </div>
-              <input type="hidden" name="nota" id="avNota" value="5">
-            </div>
-            
-            <div class="form-group">
-              <textarea name="mensagem" id="avMensagem" placeholder="Conte como foi sua experiência..." rows="3" required></textarea>
-            </div>
-            
-            <button type="submit" class="btn-avaliacao">
-              <i class="fas fa-paper-plane"></i> Enviar avaliação
-            </button>
-          </form>
-          
-          <p class="avaliacao-footer">
-            <i class="fas fa-lock"></i> Avaliação privada. Seus dados não serão publicados.
-          </p>
+          <ul class="diferencial-lista">
+            <li><i class="fas fa-check-circle"></i> Atendimento humanizado</li>
+            <li><i class="fas fa-check-circle"></i> Técnicas minimamente invasivas</li>
+            <li><i class="fas fa-check-circle"></i> Biossegurança rigorosa</li>
+            <li><i class="fas fa-check-circle"></i> Educação continuada</li>
+          </ul>
         </div>
-
       </div>
     </section>
 
@@ -390,29 +355,6 @@
       }, { threshold: 0.5 });
       document.querySelectorAll('.numero-contador').forEach(c => contadorObserver.observe(c));
 
-      // Estrelas interativas do formulário
-      const starsContainer = document.getElementById('estrelasAvaliacao');
-      const notaInput = document.getElementById('avNota');
-      if (starsContainer) {
-        const stars = starsContainer.querySelectorAll('i');
-        function atualizarEstrelas(valor) {
-          stars.forEach((star, index) => {
-            star.className = index < valor ? 'fas fa-star' : 'far fa-star';
-          });
-          notaInput.value = valor;
-        }
-        stars.forEach((star, index) => {
-          star.addEventListener('click', () => atualizarEstrelas(index + 1));
-          star.addEventListener('mouseenter', () => {
-            stars.forEach((s, i) => { s.className = i <= index ? 'fas fa-star' : 'far fa-star'; });
-          });
-        });
-        starsContainer.addEventListener('mouseleave', () => {
-          atualizarEstrelas(parseInt(notaInput.value));
-        });
-        atualizarEstrelas(5);
-      }
-
       // ========== CARROSSEL DE DEPOIMENTOS ==========
       async function obterBinId() {
         let binId = localStorage.getItem('avaliacao_bin_id');
@@ -472,7 +414,6 @@
           </div>
         `).join('');
         
-        // Dots
         dotsContainer.innerHTML = depoimentosAprovados.map((_, i) => 
           `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
         ).join('');
