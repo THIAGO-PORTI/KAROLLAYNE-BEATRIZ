@@ -104,6 +104,15 @@
       margin-bottom: 20px;
       display: none;
     }
+    .msg-erro {
+      background: #ef4444;
+      color: white;
+      padding: 15px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -113,6 +122,9 @@
     
     <div id="msgSucesso" class="msg-sucesso">
       <i class="fas fa-check-circle"></i> Avaliação enviada com sucesso! Obrigado!
+    </div>
+    <div id="msgErro" class="msg-erro">
+      <i class="fas fa-exclamation-circle"></i> <span id="erroTexto">Erro ao enviar.</span>
     </div>
 
     <form id="formAvaliacao">
@@ -175,10 +187,10 @@
   </div>
 
   <script>
-    // ========== CONFIGURAÇÃO JSONBIN ==========
+    // ========== CONFIGURAÇÃO JSONBIN (SEUS DADOS) ==========
     const JSONBIN_CONFIG = {
-      accessKey: "$2a$10$.EUPvSrSzhLHlNWMg3rw4eEmvrbkj.DosfyVq7XfunZm2YDn/rIpC",  // <-- COLE SUA ACCESS KEY
-      binId: null,  // Será criado automaticamente
+      binId: "69dfbb14aaba88219701b2df",
+      accessKey: "$2a$10$ruJXREBGaC.Q2kws5uHE6OT1rYbPNULg1Sk7Pw6wm5X7ScI6IdThq",
       apiUrl: "https://api.jsonbin.io/v3/b"
     };
 
@@ -204,73 +216,52 @@
     });
     atualizarEstrelas(5);
 
-    // ========== CRIAR BIN AUTOMATICAMENTE (SE NÃO EXISTIR) ==========
-    async function garantirBinExiste() {
-      let binId = localStorage.getItem('avaliacao_bin_id');
-      if (binId) {
-        JSONBIN_CONFIG.binId = binId;
-        return binId;
-      }
-      
-      try {
-        const response = await fetch(JSONBIN_CONFIG.apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Access-Key': JSONBIN_CONFIG.accessKey,
-            'X-Bin-Name': 'avaliacoes-karollayny'
-          },
-          body: JSON.stringify([]) // array vazio inicial
-        });
-        const data = await response.json();
-        binId = data.metadata.id;
-        localStorage.setItem('avaliacao_bin_id', binId);
-        JSONBIN_CONFIG.binId = binId;
-        console.log('✅ Bin criado:', binId);
-        return binId;
-      } catch (erro) {
-        console.error('Erro ao criar Bin:', erro);
-        alert('Erro de configuração. Contate o administrador.');
-        throw erro;
-      }
-    }
-
     // ========== ENVIAR AVALIAÇÃO ==========
-    document.getElementById('formAvaliacao').addEventListener('submit', async (e) => {
+    const form = document.getElementById('formAvaliacao');
+    const msgSucesso = document.getElementById('msgSucesso');
+    const msgErro = document.getElementById('msgErro');
+    const erroTexto = document.getElementById('erroTexto');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const btn = e.target.querySelector('button');
+      const btn = form.querySelector('button');
       const originalText = btn.innerHTML;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
       btn.disabled = true;
+      msgSucesso.style.display = 'none';
+      msgErro.style.display = 'none';
       
       try {
-        await garantirBinExiste();
+        // 1. Buscar avaliações atuais
+        const getResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
+          headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
+        });
         
+        if (!getResp.ok) {
+          throw new Error(`Erro ao buscar dados (${getResp.status})`);
+        }
+        
+        const currentData = await getResp.json();
+        const avaliacoes = currentData.record || [];
+        
+        // 2. Criar nova avaliação
         const avaliacao = {
-          nome: document.getElementById('nome').value,
+          nome: document.getElementById('nome').value.trim(),
           nota: parseInt(notaInput.value),
-          comentario: document.getElementById('comentario').value,
+          comentario: document.getElementById('comentario').value.trim(),
           comoConheceu: document.getElementById('comoConheceu').value,
           voltaria: document.getElementById('voltaria').value,
-          email: document.getElementById('email').value,
-          telefone: document.getElementById('telefone').value,
+          email: document.getElementById('email').value.trim(),
+          telefone: document.getElementById('telefone').value.trim(),
           status: 'PENDENTE',
           data: new Date().toLocaleDateString('pt-BR'),
           timestamp: Date.now()
         };
         
-        // Buscar avaliações atuais
-        const getResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
-          headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
-        });
-        const currentData = await getResp.json();
-        const avaliacoes = currentData.record || [];
-        
-        // Adicionar nova
+        // 3. Adicionar ao array e salvar
         avaliacoes.push(avaliacao);
         
-        // Salvar
         const putResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}`, {
           method: 'PUT',
           headers: {
@@ -280,19 +271,23 @@
           body: JSON.stringify(avaliacoes)
         });
         
-        if (!putResp.ok) throw new Error('Erro ao salvar');
+        if (!putResp.ok) {
+          throw new Error(`Erro ao salvar (${putResp.status})`);
+        }
         
-        document.getElementById('msgSucesso').style.display = 'block';
-        document.getElementById('formAvaliacao').reset();
+        // 4. Sucesso!
+        msgSucesso.style.display = 'block';
+        form.reset();
         atualizarEstrelas(5);
         
         setTimeout(() => {
-          document.getElementById('msgSucesso').style.display = 'none';
+          msgSucesso.style.display = 'none';
         }, 5000);
         
       } catch (erro) {
-        console.error(erro);
-        alert('Erro ao enviar avaliação. Tente novamente.');
+        console.error('Erro detalhado:', erro);
+        erroTexto.textContent = erro.message || 'Erro desconhecido. Tente novamente.';
+        msgErro.style.display = 'block';
       } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
