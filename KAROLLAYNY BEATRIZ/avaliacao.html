@@ -3,296 +3,397 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avalie seu atendimento · Dra. Karollayny</title>
+  <title>Painel Administrativo · Dra. Karollayny</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+      background: #f0f9ff;
       font-family: 'Montserrat', sans-serif;
+      padding: 2rem;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
     }
-    .form-container {
-      max-width: 600px;
-      width: 100%;
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(16px);
-      border-radius: 40px 15px 40px 15px;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 30px 50px -15px #0284C7;
-      border: 2px solid white;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 40px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
     h1 {
-      font-family: 'Cormorant Garamond', serif;
       color: #0369a1;
-      text-align: center;
-      margin-bottom: 0.5rem;
-      font-size: 2.2rem;
-    }
-    .subtitulo {
-      text-align: center;
-      color: #0284c7;
-      margin-bottom: 2rem;
-      font-style: italic;
-    }
-    .pergunta {
-      margin-bottom: 1.8rem;
-    }
-    label {
-      font-weight: 600;
-      color: #0369a1;
-      display: block;
-      margin-bottom: 8px;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid rgba(255,255,255,0.8);
-      border-radius: 20px;
-      background: rgba(255,255,255,0.8);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: #0284C7;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(2,132,199,0.1);
-    }
-    .estrelas-avaliacao {
+      margin-bottom: 1.5rem;
       display: flex;
+      align-items: center;
       gap: 10px;
-      font-size: 2rem;
-      color: #fbbf24;
-      cursor: pointer;
     }
-    .estrelas-avaliacao i {
-      transition: transform 0.2s;
+    .login-box {
+      text-align: center;
+      padding: 2rem;
     }
-    .estrelas-avaliacao i:hover { transform: scale(1.2); }
-    .btn-enviar {
-      background: linear-gradient(135deg, #0284C7, #0369a1);
+    .login-box input {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: 2px solid #bae6fd;
+      border-radius: 40px;
+      width: 250px;
+      margin-right: 10px;
+    }
+    .login-box button {
+      padding: 12px 25px;
+      background: #0284c7;
       color: white;
       border: none;
-      padding: 15px 30px;
       border-radius: 40px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      width: 100%;
+      font-weight: bold;
       cursor: pointer;
-      border: 3px solid white;
-      box-shadow: 0 10px 20px rgba(2,132,199,0.3);
-      transition: 0.3s;
-      margin-top: 1rem;
     }
-    .btn-enviar:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(2,132,199,0.4);
+    .hidden { display: none !important; }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    .msg-sucesso {
+    .btn-sair {
+      background: #94a3b8;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-atualizar {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    .avaliacao-card {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      border-left: 6px solid #eab308;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+    .avaliacao-card.aprovado { border-left-color: #22c55e; opacity: 0.8; }
+    .avaliacao-card.rejeitado { border-left-color: #ef4444; opacity: 0.6; }
+    .avaliacao-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .avaliacao-header strong {
+      color: #0369a1;
+      font-size: 1.2rem;
+    }
+    .estrelas {
+      color: #fbbf24;
+      letter-spacing: 3px;
+      font-size: 1.2rem;
+    }
+    .avaliacao-comentario {
+      margin: 12px 0;
+      color: #1e3a5f;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .avaliacao-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.85rem;
+      color: #475569;
+      margin-bottom: 15px;
+    }
+    .acoes {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-aprovar {
       background: #22c55e;
       color: white;
-      padding: 15px;
-      border-radius: 20px;
-      text-align: center;
-      margin-bottom: 20px;
-      display: none;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
     }
-    .msg-erro {
+    .btn-rejeitar {
       background: #ef4444;
       color: white;
-      padding: 15px;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .status-badge {
+      background: #eab308;
+      color: white;
+      padding: 3px 12px;
       border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status-badge.aprovado { background: #22c55e; }
+    .status-badge.rejeitado { background: #ef4444; }
+    .loading {
       text-align: center;
+      padding: 2rem;
+      color: #0284c7;
+    }
+    .msg-erro {
+      color: #dc2626;
+      margin-top: 10px;
+    }
+    .filtros {
+      display: flex;
+      gap: 10px;
       margin-bottom: 20px;
-      display: none;
+    }
+    .filtro-btn {
+      background: #e2e8f0;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .filtro-btn.active {
+      background: #0284c7;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h1>Avalie seu atendimento</h1>
-    <p class="subtitulo">Dra. Karollayny Beatriz</p>
-    
-    <div id="msgSucesso" class="msg-sucesso">
-      <i class="fas fa-check-circle"></i> Avaliação enviada com sucesso! Obrigado!
-    </div>
-    <div id="msgErro" class="msg-erro">
-      <i class="fas fa-exclamation-circle"></i> <span id="erroTexto">Erro ao enviar.</span>
+  <div class="container">
+    <h1><i class="fas fa-shield-alt"></i> Painel Administrativo</h1>
+
+    <!-- Tela de Login -->
+    <div id="loginSection" class="login-box">
+      <p style="margin-bottom: 20px; color: #0369a1;">Digite a senha para acessar</p>
+      <input type="password" id="senhaInput" placeholder="Senha">
+      <button id="btnLogin"><i class="fas fa-lock"></i> Entrar</button>
+      <div id="loginErro" class="msg-erro"></div>
     </div>
 
-    <form id="formAvaliacao">
-      <div class="pergunta">
-        <label>Seu nome *</label>
-        <input type="text" id="nome" required>
-      </div>
-
-      <div class="pergunta">
-        <label>Como você avalia o atendimento? *</label>
-        <div class="estrelas-avaliacao" id="estrelasNota">
-          <i class="far fa-star" data-valor="1"></i>
-          <i class="far fa-star" data-valor="2"></i>
-          <i class="far fa-star" data-valor="3"></i>
-          <i class="far fa-star" data-valor="4"></i>
-          <i class="far fa-star" data-valor="5"></i>
+    <!-- Área Administrativa -->
+    <div id="adminSection" class="hidden">
+      <div class="top-bar">
+        <div>
+          <button id="btnAtualizar" class="btn-atualizar"><i class="fas fa-sync-alt"></i> Atualizar</button>
+          <span id="totalAvaliacoes">0 avaliações</span>
         </div>
-        <input type="hidden" id="nota" value="5">
+        <button id="btnSair" class="btn-sair"><i class="fas fa-sign-out-alt"></i> Sair</button>
       </div>
 
-      <div class="pergunta">
-        <label>O que você achou do atendimento? *</label>
-        <textarea id="comentario" rows="3" required placeholder="Conte um pouco sobre sua experiência..."></textarea>
+      <div class="filtros">
+        <button class="filtro-btn active" data-filtro="todos">Todos</button>
+        <button class="filtro-btn" data-filtro="PENDENTE">Pendentes</button>
+        <button class="filtro-btn" data-filtro="APROVADO">Aprovados</button>
+        <button class="filtro-btn" data-filtro="REJEITADO">Rejeitados</button>
       </div>
 
-      <div class="pergunta">
-        <label>Como você conheceu a Dra. Karollayny?</label>
-        <select id="comoConheceu">
-          <option value="">Selecione...</option>
-          <option value="Instagram">Instagram</option>
-          <option value="Indicação">Indicação de amigo/familiar</option>
-          <option value="UNINASSAU">UNINASSAU</option>
-          <option value="Outro">Outro</option>
-        </select>
+      <div id="listaAvaliacoes" class="loading">
+        <i class="fas fa-spinner fa-spin"></i> Carregando avaliações...
       </div>
-
-      <div class="pergunta">
-        <label>Você voltaria a se consultar ou recomendaria?</label>
-        <select id="voltaria">
-          <option value="Sim">Sim, com certeza!</option>
-          <option value="Talvez">Talvez</option>
-          <option value="Nao">Não</option>
-        </select>
-      </div>
-
-      <div class="pergunta">
-        <label>E-mail (opcional)</label>
-        <input type="email" id="email" placeholder="seu@email.com">
-      </div>
-
-      <div class="pergunta">
-        <label>Telefone (opcional)</label>
-        <input type="tel" id="telefone" placeholder="(81) 99999-9999">
-      </div>
-
-      <button type="submit" class="btn-enviar">
-        <i class="fas fa-paper-plane"></i> Enviar avaliação
-      </button>
-    </form>
+    </div>
   </div>
 
   <script>
-    // ========== CONFIGURAÇÃO JSONBIN (SEUS DADOS) ==========
-    const JSONBIN_CONFIG = {
-      binId: "69dfbb14aaba88219701b2df",
-      accessKey: "$2a$10$ruJXREBGaC.Q2kws5uHE6OT1rYbPNULg1Sk7Pw6wm5X7ScI6IdThq",
-      apiUrl: "https://api.jsonbin.io/v3/b"
-    };
+    (function() {
+      "use strict";
 
-    // ========== ESTRELAS INTERATIVAS ==========
-    const stars = document.querySelectorAll('#estrelasNota i');
-    const notaInput = document.getElementById('nota');
-    
-    function atualizarEstrelas(valor) {
-      stars.forEach((s, i) => {
-        s.className = i < valor ? 'fas fa-star' : 'far fa-star';
-      });
-      notaInput.value = valor;
-    }
-    
-    stars.forEach((star, index) => {
-      star.addEventListener('click', () => atualizarEstrelas(index + 1));
-      star.addEventListener('mouseenter', () => {
-        stars.forEach((s, i) => s.className = i <= index ? 'fas fa-star' : 'far fa-star');
-      });
-    });
-    document.getElementById('estrelasNota').addEventListener('mouseleave', () => {
-      atualizarEstrelas(parseInt(notaInput.value));
-    });
-    atualizarEstrelas(5);
-
-    // ========== ENVIAR AVALIAÇÃO ==========
-    const form = document.getElementById('formAvaliacao');
-    const msgSucesso = document.getElementById('msgSucesso');
-    const msgErro = document.getElementById('msgErro');
-    const erroTexto = document.getElementById('erroTexto');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      // ========== CONFIGURAÇÃO ==========
+      const JSONBIN_CONFIG = {
+        binId: "69dfbb14aaba88219701b2df",        // Seu Bin ID
+        accessKey: "$2a$10$ruJXREBGaC.Q2kws5uHE6OT1rYbPNULg1Sk7Pw6wm5X7ScI6IdThq", // Sua Access Key
+        apiUrl: "https://api.jsonbin.io/v3/b"
+      };
       
-      const btn = form.querySelector('button');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-      btn.disabled = true;
-      msgSucesso.style.display = 'none';
-      msgErro.style.display = 'none';
-      
-      try {
-        // 1. Buscar avaliações atuais
-        const getResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
-          headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
-        });
-        
-        if (!getResp.ok) {
-          throw new Error(`Erro ao buscar dados (${getResp.status})`);
-        }
-        
-        const currentData = await getResp.json();
-        const avaliacoes = currentData.record || [];
-        
-        // 2. Criar nova avaliação
-        const avaliacao = {
-          nome: document.getElementById('nome').value.trim(),
-          nota: parseInt(notaInput.value),
-          comentario: document.getElementById('comentario').value.trim(),
-          comoConheceu: document.getElementById('comoConheceu').value,
-          voltaria: document.getElementById('voltaria').value,
-          email: document.getElementById('email').value.trim(),
-          telefone: document.getElementById('telefone').value.trim(),
-          status: 'PENDENTE',
-          data: new Date().toLocaleDateString('pt-BR'),
-          timestamp: Date.now()
-        };
-        
-        // 3. Adicionar ao array e salvar
-        avaliacoes.push(avaliacao);
-        
-        const putResp = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Access-Key': JSONBIN_CONFIG.accessKey
-          },
-          body: JSON.stringify(avaliacoes)
-        });
-        
-        if (!putResp.ok) {
-          throw new Error(`Erro ao salvar (${putResp.status})`);
-        }
-        
-        // 4. Sucesso!
-        msgSucesso.style.display = 'block';
-        form.reset();
-        atualizarEstrelas(5);
-        
-        setTimeout(() => {
-          msgSucesso.style.display = 'none';
-        }, 5000);
-        
-      } catch (erro) {
-        console.error('Erro detalhado:', erro);
-        erroTexto.textContent = erro.message || 'Erro desconhecido. Tente novamente.';
-        msgErro.style.display = 'block';
-      } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
+      const SENHA_ADMIN = "karollayny2024"; // Senha para acessar o painel
+
+      // ========== ELEMENTOS ==========
+      const loginSection = document.getElementById('loginSection');
+      const adminSection = document.getElementById('adminSection');
+      const senhaInput = document.getElementById('senhaInput');
+      const btnLogin = document.getElementById('btnLogin');
+      const loginErro = document.getElementById('loginErro');
+      const btnSair = document.getElementById('btnSair');
+      const btnAtualizar = document.getElementById('btnAtualizar');
+      const listaEl = document.getElementById('listaAvaliacoes');
+      const totalSpan = document.getElementById('totalAvaliacoes');
+      const filtroBtns = document.querySelectorAll('.filtro-btn');
+
+      let avaliacoesCache = [];
+      let filtroAtual = 'todos';
+
+      // ========== AUTENTICAÇÃO ==========
+      if (sessionStorage.getItem('adminLogado') === 'true') {
+        loginSection.classList.add('hidden');
+        adminSection.classList.remove('hidden');
+        carregarAvaliacoes();
       }
-    });
+
+      btnLogin.addEventListener('click', () => {
+        if (senhaInput.value === SENHA_ADMIN) {
+          sessionStorage.setItem('adminLogado', 'true');
+          loginSection.classList.add('hidden');
+          adminSection.classList.remove('hidden');
+          carregarAvaliacoes();
+          loginErro.textContent = '';
+        } else {
+          loginErro.textContent = 'Senha incorreta!';
+        }
+      });
+
+      senhaInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') btnLogin.click();
+      });
+
+      btnSair.addEventListener('click', () => {
+        sessionStorage.removeItem('adminLogado');
+        adminSection.classList.add('hidden');
+        loginSection.classList.remove('hidden');
+        senhaInput.value = '';
+        senhaInput.focus();
+      });
+
+      // ========== FILTROS ==========
+      filtroBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filtroBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          filtroAtual = btn.dataset.filtro;
+          renderizarLista();
+        });
+      });
+
+      // ========== CARREGAR AVALIAÇÕES ==========
+      async function carregarAvaliacoes() {
+        listaEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...';
+        try {
+          const response = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}/latest`, {
+            headers: { 'X-Access-Key': JSONBIN_CONFIG.accessKey }
+          });
+          if (!response.ok) throw new Error(`Erro ${response.status}`);
+          const data = await response.json();
+          avaliacoesCache = data.record || [];
+          renderizarLista();
+        } catch (erro) {
+          console.error(erro);
+          listaEl.innerHTML = `<p class="msg-erro">Erro ao carregar: ${erro.message}</p>`;
+        }
+      }
+
+      function renderizarLista() {
+        let avaliacoesFiltradas = avaliacoesCache;
+        if (filtroAtual !== 'todos') {
+          avaliacoesFiltradas = avaliacoesCache.filter(a => a.status === filtroAtual);
+        }
+        
+        // Ordenar por data (mais recentes primeiro)
+        avaliacoesFiltradas.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        
+        totalSpan.textContent = `${avaliacoesFiltradas.length} avaliações`;
+        
+        if (avaliacoesFiltradas.length === 0) {
+          listaEl.innerHTML = '<p style="text-align: center; padding: 2rem;">Nenhuma avaliação encontrada.</p>';
+          return;
+        }
+        
+        let html = '';
+        avaliacoesFiltradas.forEach((av, index) => {
+          const originalIndex = avaliacoesCache.findIndex(a => 
+            a.timestamp === av.timestamp && a.nome === av.nome
+          );
+          const statusClass = av.status === 'APROVADO' ? 'aprovado' : 
+                              av.status === 'REJEITADO' ? 'rejeitado' : '';
+          const statusBadgeClass = av.status === 'APROVADO' ? 'aprovado' : 
+                                    av.status === 'REJEITADO' ? 'rejeitado' : '';
+          
+          html += `
+            <div class="avaliacao-card ${statusClass}" data-index="${originalIndex}">
+              <div class="avaliacao-header">
+                <div>
+                  <strong>${escapeHtml(av.nome)}</strong>
+                  <span class="status-badge ${statusBadgeClass}">${av.status || 'PENDENTE'}</span>
+                </div>
+                <div class="estrelas">${'★'.repeat(av.nota)}${'☆'.repeat(5 - av.nota)}</div>
+              </div>
+              <div class="avaliacao-comentario">"${escapeHtml(av.comentario)}"</div>
+              <div class="avaliacao-info">
+                <span><i class="far fa-calendar"></i> ${av.data || 'N/I'}</span>
+                <span><i class="fas fa-info-circle"></i> Conheceu por: ${av.comoConheceu || 'N/I'}</span>
+                <span><i class="fas fa-undo-alt"></i> Voltaria: ${av.voltaria || 'N/I'}</span>
+                ${av.email ? `<span><i class="far fa-envelope"></i> ${escapeHtml(av.email)}</span>` : ''}
+                ${av.telefone ? `<span><i class="fas fa-phone"></i> ${escapeHtml(av.telefone)}</span>` : ''}
+              </div>
+              ${av.status === 'PENDENTE' ? `
+                <div class="acoes">
+                  <button class="btn-aprovar" data-index="${originalIndex}"><i class="fas fa-check"></i> Aprovar</button>
+                  <button class="btn-rejeitar" data-index="${originalIndex}"><i class="fas fa-times"></i> Rejeitar</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+        
+        listaEl.innerHTML = html;
+        
+        // Adicionar eventos aos botões
+        document.querySelectorAll('.btn-aprovar').forEach(btn => {
+          btn.addEventListener('click', () => atualizarStatus(parseInt(btn.dataset.index), 'APROVADO'));
+        });
+        document.querySelectorAll('.btn-rejeitar').forEach(btn => {
+          btn.addEventListener('click', () => atualizarStatus(parseInt(btn.dataset.index), 'REJEITADO'));
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      async function atualizarStatus(index, novoStatus) {
+        try {
+          avaliacoesCache[index].status = novoStatus;
+          
+          const response = await fetch(`${JSONBIN_CONFIG.apiUrl}/${JSONBIN_CONFIG.binId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Access-Key': JSONBIN_CONFIG.accessKey
+            },
+            body: JSON.stringify(avaliacoesCache)
+          });
+          
+          if (!response.ok) throw new Error('Erro ao salvar');
+          
+          renderizarLista();
+        } catch (erro) {
+          alert('Erro ao atualizar status: ' + erro.message);
+          await carregarAvaliacoes(); // Recarregar do servidor
+        }
+      }
+
+      btnAtualizar.addEventListener('click', carregarAvaliacoes);
+    })();
   </script>
 </body>
 </html>
